@@ -36,8 +36,8 @@ public BengModelItem(String name,String deadline,Bitmap image, BengType bengstat
 		return Deadline;
 	}
 
-	public void setDaedline(String daedline) {
-		Deadline = daedline;
+	public void setDeadline(String deadline) {
+		Deadline = deadline;
 	}
 
 	public Bitmap getImage() {
