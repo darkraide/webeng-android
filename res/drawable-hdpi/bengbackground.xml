@@ -43,4 +43,20 @@
 	    <corners android:radius="3dp" />
 	</shape>
     </item>
+    <selector 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item 
+        android:state_pressed="true"
+        android:color="#c64314" 
+        /> <!-- pressed -->    
+    <item 
+        android:state_focused="true"
+        android:color="#c64314" 
+        /> <!-- focused -->    
+    <item 
+        android:color="#e4511d" 
+        /> <!-- default -->
+</selector>
+  
 </layer-list>

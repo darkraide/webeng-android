@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bengbackground"
-    android:descendantFocusability="beforeDescendants"
+   
     android:orientation="vertical"
     android:paddingBottom="5dp"
     android:paddingLeft="5dp"
@@ -115,5 +115,10 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -45,20 +45,20 @@ public final class R {
         public static final int Namedetail=0x7f08000c;
         public static final int Photo=0x7f080003;
         public static final int Post=0x7f080018;
-        public static final int action_settings=0x7f080022;
+        public static final int action_settings=0x7f080023;
         public static final int available_detail=0x7f080013;
         public static final int bengplace=0x7f080007;
         public static final int bengtype=0x7f080006;
         public static final int contact=0x7f080009;
         public static final int contact_detail=0x7f080015;
-        public static final int create=0x7f080023;
+        public static final int create=0x7f080024;
         public static final int date=0x7f08001c;
         public static final int deadline=0x7f080004;
         public static final int deadlinedetail=0x7f08000e;
         public static final int description=0x7f08000a;
         public static final int detail_place=0x7f080011;
         public static final int gallery1=0x7f08000f;
-        public static final int imageButton1=0x7f080020;
+        public static final int imageButton1=0x7f080021;
         public static final int name=0x7f08001a;
         public static final int placeGetGood=0x7f080008;
         public static final int sharebutton=0x7f080005;
@@ -68,7 +68,8 @@ public final class R {
         public static final int textView4=0x7f080010;
         public static final int textView6=0x7f080012;
         public static final int textView8=0x7f080014;
-        public static final int titleActivity=0x7f080021;
+        public static final int titleActivity=0x7f080022;
+        public static final int view1=0x7f080020;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
