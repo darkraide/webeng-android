@@ -79,7 +79,7 @@ public class BengItemAdapter extends BaseAdapter {
 			holder = (BengItem) convertView.getTag();
 		}
 		
-		((TextView) convertView.findViewById(R.id.name)).setTypeface(font.mMedium);
+	
 		((TextView) convertView.findViewById(R.id.date)).setTypeface(font.mMedium);
 		holder.getName().setText(mitems.get(position).getName());
 		holder.getName().setTypeface(font.getInstance().mMedium);

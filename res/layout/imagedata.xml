@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bengbackground"
-   
+    android:background="@drawable/selecotor"
     android:orientation="vertical"
     android:paddingBottom="5dp"
     android:paddingLeft="5dp"
@@ -24,13 +23,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="3dp"
         android:paddingRight="3dp" >
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Beng : "
-            android:textColor="#000" />
 
         <TextView
             android:id="@+id/NameItem"
@@ -61,7 +53,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0"
             android:gravity="center"
-            android:text="Deadline : "
+            android:text="@string/Deadline"
             android:textColor="#000" />
 
         <TextView
@@ -93,7 +85,7 @@
             android:layout_weight="1"
             android:background="@drawable/beng_button"
             android:paddingBottom="3dp"
-            android:text="Benggg"
+            android:text="@string/Benggg"
             android:textAllCaps="true"
             android:textColor="#fff"
             android:textColorHint="#000"
@@ -109,7 +101,7 @@
             android:layout_weight="1"
             android:background="@drawable/viewresult_button"
             android:paddingBottom="3dp"
-            android:text="View Result"
+            android:text="@string/ViewResult"
             android:textColor="#fff"
             android:textSize="15sp"
             android:textStyle="bold" />

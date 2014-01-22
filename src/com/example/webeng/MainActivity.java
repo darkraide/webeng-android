@@ -23,6 +23,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -31,9 +32,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -54,6 +58,16 @@ public class MainActivity extends Activity implements OnItemClickListener   {
 		View v = inflator.inflate(R.layout.mymenu, null);
 
 		final TextView title =  ((TextView)v.findViewById(R.id.titleActivity));
+		final ImageButton btn_newbeng = ((ImageButton)v.findViewById(R.id.createbeng));
+		btn_newbeng.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent myIntentA1A2 = new Intent(MainActivity.this, CreateBeng.class);
+				startActivity(myIntentA1A2);
+				
+			}
+		});
 		title.setTypeface(font.mBold);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		
@@ -78,6 +92,9 @@ public class MainActivity extends Activity implements OnItemClickListener   {
 		font.prepareFont(light, medium, bold, untralight);
 		
 		context = this.getApplicationContext();
+		
+		benglist.setOnItemClickListener(this);
+		benglist.setEmptyView(findViewById(R.id.emptyList));
 		getimage = new Thread(new Runnable () {
 			@Override
 			public void run() {
@@ -87,7 +104,7 @@ public class MainActivity extends Activity implements OnItemClickListener   {
 			        HttpGet httpRequest = null;
 
 			        httpRequest = new HttpGet(url.toURI());
-
+			        
 			        HttpClient httpclient = new DefaultHttpClient();
 			        HttpResponse response = (HttpResponse) httpclient
 			                .execute(httpRequest);
@@ -109,7 +126,6 @@ public class MainActivity extends Activity implements OnItemClickListener   {
 			}//run 
 		});
 		getimage.start();
-		benglist.setOnItemClickListener(this);
 	}
 	private static Handler handler = new Handler() {
 
