@@ -1,17 +1,29 @@
-package com.example.webeng;
+package Adapter;
 
 
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+
+import com.example.webeng.R;
+
+
 
 import models.BengModelItem;
-import models.BengModelItem.BengType;
+import models.BengModelListItem.BengType;
+
+
 
 
 import Fonts.FontManager;
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +36,8 @@ import android.widget.TextView;
 
 public class BengItemAdapter extends BaseAdapter {
 	FontManager font = new FontManager();
-	private static final String Name = "Beng : ";
-	private static final String Deadline = "Deadline : ";
+	//private static final String Name = "Beng : ";
+	//private static final String Deadline = "Deadline : ";
 	private LayoutInflater mInflater;
 	private List<BengModelItem> mitems;
     public BengItemAdapter(Context context,List<BengModelItem> items)
@@ -71,33 +83,50 @@ public class BengItemAdapter extends BaseAdapter {
             
             holder.setViewResult((Button) convertView.findViewById(R.id.BtnViewResult));
             
-            holder.getImage().setScaleType(ScaleType.FIT_XY);
+            holder.getImage().setScaleType(ScaleType.FIT_CENTER);
             convertView.setTag(holder);			
 		}
 		else
 		{
 			holder = (BengItem) convertView.getTag();
 		}
-		
-	
-		((TextView) convertView.findViewById(R.id.date)).setTypeface(font.mMedium);
+		 Date date = new Date();
+		 DateFormat fm=DateFormat.getDateTimeInstance();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss dd-MM-yyyy");
+			TimeZone timezone = TimeZone.getTimeZone("Etc/GMT+7");
+			 
+		dateFormat.setTimeZone(timezone);
+			 Date convertedDate = null;
+		        try {
+		            convertedDate = dateFormat.parse("20:33:00 05-03-2014");
+		        } 
+		        catch (ParseException e) {
+		        	//convertedDate = null;
+		        	
+		            // TODO Auto-generated catch block
+		            e.printStackTrace();
+		        }
+	       // date.parse("Wed Jan 22 2014 19:01:45 GMT+0700");
+		 
+		//((TextView) convertView.findViewById(R.id.date)).setTypeface(font.mMedium);
 		holder.getName().setText(mitems.get(position).getName());
-		holder.getName().setTypeface(font.getInstance().mMedium);
-		holder.getDeadline().setText(mitems.get(position).getDaedline());
-		holder.getDeadline().setTypeface(font.mBold);
-        holder.getImage().setImageBitmap(mitems.get(position).getImage());
-        
-        if(mitems.get(position).getBeng() == BengType.BENGING){
+		//holder.getName().setTypeface(font.getInstance().mMedium);
+		holder.getDeadline().setText(dateFormat.format(convertedDate));
+		//holder.getDeadline().setTypeface(font.mBold);
+        holder.getImage().setImageResource(R.drawable.koala);
+       
+        if(mitems.get(position).getType() == BengType.BENGING){
         	holder.getBeng().setVisibility(View.VISIBLE);
-        	holder.getBeng().setTypeface(font.mBold);
+        	//holder.getBeng().setTypeface(font.mBold);
         	holder.getDeadline().setTextColor(Color.parseColor("#e4511d"));
         	
         	holder.getViewResult().setVisibility(View.GONE);
         }
         else{
         	holder.getBeng().setVisibility(View.GONE);
-        	holder.getViewResult().setTypeface(font.mBold);
+        	//holder.getViewResult().setTypeface(font.mBold);
         	holder.getViewResult().setVisibility(View.VISIBLE);
+        	holder.getDeadline().setTextColor(Color.parseColor("#000000"));
         }
         return convertView;		
 	}

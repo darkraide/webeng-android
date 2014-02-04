@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -7,15 +8,22 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="5dp"
-    android:orientation="vertical" >
+    android:overScrollMode="always"
+    android:scrollbars="vertical" >
 
-    <EditText
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+            <EditText
         android:id="@+id/NameBeng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/name"
-        android:textSize="12sp" >
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textSize="14sp" >
 
         <requestFocus />
     </EditText>
@@ -28,7 +36,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
 
         <EditText
             android:id="@+id/deadline"
@@ -39,14 +49,16 @@
             android:gravity="bottom|center_vertical"
             android:hint="@string/Deadlinehint"
             android:inputType="date"
-            android:textSize="12sp" />
+            android:paddingTop="10dp"
+            android:textSize="14sp" />
 
-        <ImageButton
-            android:id="@+id/sharebutton"
+        <Button
+            android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:src="@drawable/ic_launcher" />
+            android:layout_weight="1"
+            android:text="Button" />
+
     </LinearLayout>
 
     <EditText
@@ -55,7 +67,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/BengType"
-        android:textSize="12sp" />
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/bengplace"
@@ -63,7 +77,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/WhereDoestheplacesusethisbeng"
-        android:textSize="12sp" />
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/placeGetGood"
@@ -71,7 +87,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/WheredoesthewinnergettheGoods"
-        android:textSize="12sp" />
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/contact"
@@ -79,7 +97,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Howcanthewinnercontactoyou"
-        android:textSize="12sp" />
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/description"
@@ -87,16 +107,19 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/Description"
-        android:textSize="12sp" />
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/submit"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/beng_button"
         android:text="@string/SaveBenggg"
         android:textColor="#fff" />
+    </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

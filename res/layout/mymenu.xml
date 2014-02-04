@@ -23,8 +23,7 @@
         android:layout_weight="1"
         android:text="@string/title"
         android:textColor="#fff"
-        android:textSize="25dp"
-        android:textStyle="bold" >
+        android:textSize="25dp" >
 
     </TextView>
 

@@ -20,7 +20,7 @@
     <ListView
         android:id="@+id/ListBeng"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="0dp"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="0dp"
@@ -34,5 +34,13 @@
         android:paddingLeft="0dp" >
 
     </ListView>
+
+    <ProgressBar
+        android:id="@+id/progressGetItem"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal|center"
+        android:visibility="invisible" />
 
 </LinearLayout>

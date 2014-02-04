@@ -3,10 +3,10 @@ package Fonts;
 import android.graphics.Typeface;
 
 public class FontManager {
-	public Typeface mLight;
-	public Typeface mMedium;
-	public Typeface mBold;
-	public Typeface mUntralight;
+	public static Typeface mLight;
+	public static Typeface mMedium;
+	public static Typeface mBold;
+	public static Typeface mUntralight;
 	private static final FontManager INSTANCE = new FontManager();
 
 	public FontManager getInstance() {
