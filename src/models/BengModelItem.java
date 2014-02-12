@@ -1,31 +1,54 @@
 package models;
 
 
-import models.BengModelListItem.BengType;
+
 
 public class BengModelItem {
-	private String id;
-	private BengType type;
-	private String name;
-	private String deadline;
-	private String status;
-	private String timestamp;
-	private String[] thumps;
-	private String[] photo;
-	private String[] location;
-	private String address;
-	private String description;
-	private String winner;
-
-	public BengModelItem(String Id,BengType Type,String Name,String Deadline,String status,String Timestamp,String[] thumps,String[] Photo){
-		id= Id;
-		type = Type;
-		name = Name;
-		deadline = Deadline;
+	public BengModelItem(String updated, String status, String description,
+			String contact, String address, int type, String deadline,
+			String user, String id, String winner, String[] location,
+			String[] photo, String __v) {
+		super();
+		this.updated = updated;
 		this.status = status;
-		timestamp = Timestamp;
-		this.thumps = thumps;
-		this.photo = Photo;
+		this.description = description;
+		this.contact = contact;
+		this.address = address;
+		this.type = type;
+		this.deadline = deadline;
+		this.user = user;
+		this.id = id;
+		this.winner = winner;
+		this.location = location;
+		this.photo = photo;
+		this.__v = __v;
+	}
+	private String updated;
+	private String status;
+	private String description;
+	private String contact;
+	private String address;
+	private int type;
+	private String deadline;
+	private String user;
+	private String id;
+	private String winner;
+	private String[] location;
+//	private String name;
+	
+	
+	
+	
+	
+	//private String[] thumps;
+	private String[] photo;
+	private String __v;
+	
+	
+
+
+	public BengModelItem() {
+	
 	}
 	public String getId() {
 		return id;
@@ -37,13 +60,13 @@ public class BengModelItem {
 
 	
 
-	public String getName() {
+	/*public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
+	}*/
 
 	public String getDeadline() {
 		return deadline;
@@ -62,20 +85,14 @@ public class BengModelItem {
 	}
 
 	public String getTimestamp() {
-		return timestamp;
+		return __v;
 	}
 
 	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
+		this.__v = timestamp;
 	}
 
-	public String[] getThumps() {
-		return thumps;
-	}
-
-	public void setThumps(String[] thumps) {
-		this.thumps = thumps;
-	}
+	
 
 	public String[] getPhoto() {
 		return photo;
@@ -85,15 +102,14 @@ public class BengModelItem {
 		this.photo = photo;
 	}
 
-	public BengType getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(BengType type) {
+	public void setType(int type) {
 		this.type = type;
 	}
-	public String[] getLocation() {
-		return location;
+/*		return location;
 	}
 	public void setLocation(String[] location) {
 		this.location = location;
@@ -115,6 +131,54 @@ public class BengModelItem {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}*/
+	public String getUpdated() {
+		return updated;
+	}
+	public void setUpdated(String updated) {
+		this.updated = updated;
+	}
+	public String get__v() {
+		return __v;
+	}
+	public void set__v(String __v) {
+		this.__v = __v;
+	}
+	public String[] getLocation() {
+		return location;
+	}
+	public void setLocation(String[] location) {
+		this.location = location;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getWinner() {
+		return winner;
+	}
+	public void setWinner(String winner) {
+		this.winner = winner;
+	}
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 }

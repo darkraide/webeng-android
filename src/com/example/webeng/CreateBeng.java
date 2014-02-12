@@ -35,7 +35,7 @@ public class CreateBeng extends Activity {
 				CreateBeng.this.finish();
 			}
 		});
-		title.setTypeface(FontManager.mMedium);
+		title.setTypeface(FontManager.getInstance().mMedium);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		
 		lp.gravity = Gravity.CENTER;

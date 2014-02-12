@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="webeeng">We benggg</string>
+    <string name="Userid">UserName</string>
+    <string name="PassWord">Password</string>
+      <string name="login">Login</string>
+    <string name="SignUp">SignUp</string>
     <string name="app_name">Webeng</string>
     <string name="action_settings">Settings</string>
     <string name="name">Name</string>
@@ -20,6 +25,8 @@
     <string name="Howcanthewinnercontactoyou">How can the winner contac to you?</string>
     <string name="Description">Description</string>
     <string name="SaveBenggg">Save Benggg</string>
-      <string name="create">Create Beng</string>
+    <string name="create">Create Beng</string>
+    <string name="title_activity_login">Login</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
