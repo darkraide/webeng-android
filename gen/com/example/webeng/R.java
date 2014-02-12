@@ -34,8 +34,9 @@ public final class R {
         public static final int ic_action_share=0x7f02000a;
         public static final int ic_launcher=0x7f02000b;
         public static final int koala=0x7f02000c;
-        public static final int selecotor=0x7f02000d;
-        public static final int viewresult_button=0x7f02000e;
+        public static final int loginbutton=0x7f02000d;
+        public static final int selecotor=0x7f02000e;
+        public static final int viewresult_button=0x7f02000f;
     }
     public static final class id {
         public static final int BengButton=0x7f08002b;
@@ -99,8 +100,7 @@ public final class R {
         public static final int detail=0x7f030005;
         public static final int emptylist=0x7f030006;
         public static final int imagedata=0x7f030007;
-        public static final int loginbutton=0x7f030008;
-        public static final int mymenu=0x7f030009;
+        public static final int mymenu=0x7f030008;
     }
     public static final class menu {
         public static final int login=0x7f070000;
