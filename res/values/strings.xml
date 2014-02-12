@@ -2,10 +2,10 @@
 <resources>
 
     <string name="webeeng">We benggg</string>
-    <string name="Userid">UserName</string>
+    <string name="Userid">Email</string>
     <string name="PassWord">Password</string>
       <string name="login">Login</string>
-    <string name="SignUp">SignUp</string>
+    <string name="SignUp">I am a new user</string>
     <string name="app_name">Webeng</string>
     <string name="action_settings">Settings</string>
     <string name="name">Name</string>
