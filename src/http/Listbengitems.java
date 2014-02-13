@@ -17,20 +17,27 @@ import models.BengModelItem;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.example.webeng.Login;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-public class getlistbengitems {
+public class Listbengitems extends basehttp {
+	public Listbengitems(String Url){
+		this.url = Url;
+		this.type = 2;
+	}
 	public Listbeng getall() {
 		Listbeng listbengs = null;
 		URL url = null;
@@ -81,7 +88,7 @@ public class getlistbengitems {
 		return listbengs;
 	}
 
-	public static ArrayList<BengModelItem> parse(String jsonString) {
+/*	public  ArrayList<BengModelItem> parse(String jsonString) {
 
 		ArrayList<BengModelItem> messages = new ArrayList<BengModelItem>();
 		char[] buf = null;
@@ -127,7 +134,7 @@ public class getlistbengitems {
 
 		return messages;
 
-	}
+	}*/
 
 	private String convertStreamToString2(Reader reader) {
 		int inChar;
@@ -145,26 +152,7 @@ public class getlistbengitems {
 		return stringBuffer.toString();
 	}
 
-	private String convertStreamToString(InputStream is) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		final StringBuilder sb = new StringBuilder();
-
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-		} catch (IOException e) {
-			// e.printStackTrace();
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				// e.printStackTrace();
-			}
-		}
-		return sb.toString();
-	}
+	
 
 	public class Listbeng {
 		public ArrayList<BengModelItem> listbengs;
@@ -193,6 +181,64 @@ public class getlistbengitems {
 		public void setNext(String next) {
 			this.next = next;
 		}
+	}
+
+	@Override
+	public
+	List<NameValuePair> parameters() {
+	 String[] str	= Login.hepler.getUser();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		nameValuePairs
+				.add(new BasicNameValuePair("token", str[1]));
+		nameValuePairs.add(new BasicNameValuePair("userid",str[0]));
+		return nameValuePairs;
+	}
+
+	@Override
+	public
+	Object parse(String jsonstring) {
+		ArrayList<BengModelItem> messages = new ArrayList<BengModelItem>();
+		
+
+		if (jsonstring != null) {
+			try {
+				JSONArray jsonObject = new JSONArray(jsonstring);
+
+				// JSONArray msgs = (JSONArray) jsonObject.get("items");
+				for (int i = 0; i < jsonObject.length(); i++) {
+					JSONObject json_message = jsonObject.getJSONObject(i);
+					if (json_message != null) {
+						BengModelItem objMsg = new BengModelItem();
+						objMsg.setUpdated(json_message.getString("updated"));
+						objMsg.setStatus(json_message.getInt("status"));
+						objMsg.setDescription(json_message
+								.getString("description"));
+						objMsg.setContact(json_message.getString("contact"));
+						objMsg.setAddress(json_message.getString("address"));
+						objMsg.setType(json_message.getInt("bengtype"));
+						objMsg.setDeadline(json_message.getString("deadline"));
+
+						objMsg.setUser(json_message.getString("user"));
+						objMsg.setId(json_message.getString("_id"));
+						
+					//	objMsg.setName(json_message.getString("Name"));
+
+						
+						objMsg.setWinner((Boolean) (json_message.get("winner")));
+						objMsg.setLocation((int[]) json_message.get("location"));
+						objMsg.setPhoto((String[]) json_message.get("photos"));
+						objMsg.set__v(json_message.getString("__v"));
+						
+						messages.add(objMsg);
+					}
+				}
+
+			} catch (JSONException je) {
+				Log.e("JSONparse", "error while parsing", je);
+			}
+		}
+
+		return messages;
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.example.webeng;
 
-import http.getlistbengitems;
-import http.getlistbengitems.Listbeng;
+import http.Listbengitems;
+import http.Listbengitems.Listbeng;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -32,6 +32,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -55,13 +56,12 @@ public class MainActivity extends Activity implements OnItemClickListener {
 	private static List<BengModelItem> items;
 	private static Context context;
 	private static ProgressBar getitem;
-	FontManager font =	FontManager.getInstance();
+	FontManager font = FontManager.getInstance();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 
 		benglist = (ListView) findViewById(R.id.ListBeng);
 
@@ -78,9 +78,8 @@ public class MainActivity extends Activity implements OnItemClickListener {
 
 			@Override
 			public void onClick(View v) {
-				Intent myIntentA1A2 = new Intent(MainActivity.this,
-						CreateBeng.class);
-				startActivity(myIntentA1A2);
+				Intent newbeng = new Intent(MainActivity.this, CreateBeng.class);
+				startActivity(newbeng);
 
 			}
 		});
@@ -154,41 +153,25 @@ public class MainActivity extends Activity implements OnItemClickListener {
 
 		@Override
 		protected List<BengModelItem> doInBackground(String... arg0) {
-			List<BengModelItem> list = new ArrayList<BengModelItem>();
-			Listbeng benglist = null;
+			List<BengModelItem> list = null ;
+			// Listbeng benglist = null;
 			Bitmap bitmap = null;
 			try {
-				/*
-				 * URL url = new
-				 * URL("http://0.tqn.com/d/webclipart/1/0/5/l/4/floral-icon-5.jpg"
-				 * ); //try this url =
-				 * "http://0.tqn.com/d/webclipart/1/0/5/l/4/floral-icon-5.jpg"
-				 * HttpGet httpRequest = null;
-				 * 
-				 * httpRequest = new HttpGet(url.toURI());
-				 * 
-				 * HttpClient httpclient = new DefaultHttpClient(); HttpResponse
-				 * response = (HttpResponse) httpclient .execute(httpRequest);
-				 * 
-				 * HttpEntity entity = response.getEntity(); BufferedHttpEntity
-				 * b_entity = new BufferedHttpEntity(entity); InputStream input
-				 * = b_entity.getContent();
-				 * 
-				 * bitmap = BitmapFactory.decodeStream(input);
-				 */
-				getlistbengitems getbenglist = new getlistbengitems();
-				benglist = getbenglist.getall();
-
+				
+				Listbengitems getbenglist = new Listbengitems(
+						"http://webenggg.herokuapp.com//beng/dashboard/0");
+				list = (List<BengModelItem>) getbenglist.valuereturn();
+				if (list != null)
+					Log.v("getlis", "ok");
+				Log.v("list",list.get(0).getAddress());
 				// Message msg = handler.obtainMessage(1, bitmap);
 				// handler.sendMessage(msg);
 
 			} catch (Exception ex) {
-
+Log.v("listlist",ex.toString());
 			}
-			if (benglist != null)
 
-				return benglist.listbengs;
-			return null;
+			return list;
 
 		}
 
