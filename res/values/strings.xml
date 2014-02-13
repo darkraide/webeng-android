@@ -28,5 +28,15 @@
     <string name="create">Create Beng</string>
     <string name="title_activity_login">Login</string>
     <string name="hello_world">Hello world!</string>
+    <string name="completeprofile">Complete Your Profile</string>
+    <string name="YourEmail">Your Email</string>
+    <string name="YourPassword">Your Password</string>
+    <string name="NextButton">Next</string>
+    <string name="btnNext">Next</string>
+    <string name="CompleteYourProfile">Complete Your Profile</string>
+    <string name="Female">Female</string>
+    <string name="Male">Male</string>
+    <string name="YourSexual">What is your sexual?</string>
+    <string name="YourLocations">Your Locations</string>
 
 </resources>
