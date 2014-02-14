@@ -32,8 +32,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/YourEmail"
-                android:textColor="#fff"
-                android:textColorHint="#fff"
+                android:textColor="#000"
+                android:textColorHint="#000"
                 android:layout_marginBottom="20dp"
                 android:textSize="18sp"
                 android:inputType="textEmailAddress"
@@ -46,8 +46,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/YourPassword"
-                android:textColor="#fff"
-                android:textColorHint="#fff"
+                android:textColor="#000"
+                android:textColorHint="#000"
                 android:layout_marginBottom="20dp"
                 android:textSize="18sp"
                 android:inputType="textPassword"
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/YourSexual"
                 android:id="@+id/textView"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="20dp"
                 android:layout_gravity="left"
                 android:layout_marginTop="20dp" />
@@ -78,13 +78,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Female"
-                    android:id="@+id/radioButton"
+                    android:id="@+id/ckFemale"
                     android:layout_gravity="left" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Male"
-                    android:id="@+id/radioButton"
+                    android:id="@+id/ckMale"
 
                     android:layout_gravity="left" />
             </RadioGroup>
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/YourLocations"
                 android:id="@+id/textView"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:textSize="20dp"
                 android:layout_gravity="left"
                 android:layout_marginTop="20dp" />
@@ -110,30 +110,24 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Female"
-                    android:id="@+id/radioButton"
+                    android:text="TP.HO CHI MINH"
+                    android:id="@+id/ckHcm"
                     android:layout_gravity="left" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Male"
-                    android:id="@+id/radioButton"
+                    android:text="HA NOI"
+                    android:id="@+id/ckHanoi"
 
                     android:layout_gravity="left" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Male"
-                    android:id="@+id/radioButton"
+                    android:text="DA NANG"
+                    android:id="@+id/ckDaNang"
 
                     android:layout_gravity="left" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Male"
-                    android:id="@+id/radioButton"
 
-                    android:layout_gravity="left" />
             </RadioGroup>
         </LinearLayout>
     </ViewFlipper>

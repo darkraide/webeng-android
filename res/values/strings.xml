@@ -38,5 +38,6 @@
     <string name="Male">Male</string>
     <string name="YourSexual">What is your sexual?</string>
     <string name="YourLocations">Your Locations</string>
+    <string name="btnDone">Done</string>
 
 </resources>

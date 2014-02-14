@@ -18,14 +18,18 @@ public class UserCreate extends Activity {
         setContentView(R.layout.user_create);
         this.getActionBar().hide();
         viewFlipper= (ViewFlipper) findViewById(R.id.viewFlipper);
-        Button nextButton=(Button)findViewById(R.id.btnNext);
+        final Button nextButton=(Button)findViewById(R.id.btnNext);
         viewFlipper.setInAnimation(this, R.anim.in_from_right);
         viewFlipper.setOutAnimation(this, R.anim.out_to_left);
         nextButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-
+                if(viewFlipper.getDisplayedChild()==1){
+                    nextButton.setText(R.string.btnDone);
+                }else{
+                    nextButton.setText(R.string.btnNext);
+                }
                 viewFlipper.showNext();
             }
         });
