@@ -27,6 +27,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import parser.parseArrayBeng;
+
 import android.util.Log;
 
 import com.example.webeng.Login;
@@ -34,107 +36,51 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 public class Listbengitems extends basehttp {
-	public Listbengitems(String Url){
+	public Listbengitems(String Url) {
 		this.url = Url;
 		this.type = 2;
 	}
-	public Listbeng getall() {
-		Listbeng listbengs = null;
-		URL url = null;
-		try {
-			// url = new URL('http://webenggg.apiary.io/bengs');
 
-			// HttpGet httpRequest = null;
-
-			HttpGet getRequest = new HttpGet("http://webenggg.apiary.io/bengs");
-
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-
-			HttpResponse getResponse = httpClient.execute(getRequest);
-
-			/*
-			 * final int statusCode =
-			 * getResponse.getStatusLine().getStatusCode();
-			 * 
-			 * if (statusCode != HttpStatus.SC_OK) {
-			 * Log.w(getClass().getSimpleName(), 'Error ' + statusCode + ' for
-			 * URL ' + url); return null; }
-			 */
-			HttpEntity getResponseEntity = getResponse.getEntity();
-			BufferedHttpEntity buf = new BufferedHttpEntity(getResponseEntity);
-
-			InputStream is = buf.getContent();
-			// final String a = convertStreamToString(is);
-			// InputStream httpResponseStream = getResponseEntity.getContent();
-
-			String tem = "{\n       'items': [\n\n                      {\n                           'Id':'754',\n                           'Type': 1 ,                          'Name':\\'Chuột Magic Mouse, hàng bảo hành chính hãng Apple\\',\n                           'Deadline':'Wed Jan 22 2014 19:01:45 GMT+0700',\n                           'Status':'1',\n                           'Timestamp':'AZBDDAZZ',\n                           'Thumps':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h3.jpeg\\'\n                           ],\n                           'Photos':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h3.jpeg\\'\n                           ]    \n                      },\n                      {\n                           'Id':'645',\n                           'Type': 1,\n                           'Name':\\'Mũ bảo hiểm Amoro\\',\n                           'Deadline':'Wed Jan 22 2014 19:01:45 GMT+0700',\n                           'Status':'1',\n                           'Timestamp':'AZBDDAZZ',\n                           'Thumps':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thump3.jpeg\\'\n                           ],\n                           'Photos':[\n                            \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thump3.jpeg\\'\n                           ]    \n                      },\n                      {\n                           'Id':'754',\n                           'Type': 2 //1: Bengging, 2: Winner\n                           'Name':\\'Chuột Magic Mouse, hàng bảo hành chính hãng Apple\\',\n                           'Deadline':'Wed Jan 22 2014 19:01:45 GMT+0700',\n                           'Status':'2',\n                           'Timestamp':'AZBDDAZZ',\n                           'Thumps':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h3.jpeg\\'\n                           ],\n                           'Photos':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h3.jpeg\\'\n                           ]    \n                      },\n                      {\n                           'Id':'645',\n                           'Type': 1,\n                           'Name':\\'Mũ bảo hiểm Amoro\\',\n                           'Deadline':'Wed Jan 22 2014 19:01:45 GMT+0700',\n                           'Status':'1',\n                           'Timestamp':'AZBDDAZZ',\n                           'Thumps':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thump3.jpeg\\'\n                           ],\n                           'Photos':[\n                            \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thump3.jpeg\\'\n                           ]    \n                      },\n                      {\n                           'Id':'754',\n                           'Type': 1 //1: Bengging, 2: Winner\n                           'Name':\\'Chuột Magic Mouse, hàng bảo hành chính hãng Apple\\',\n                           'Deadline':'Wed Jan 22 2014 19:01:45 GMT+0700',\n                           'Status':'1',\n                           'Timestamp':'AZBDDAZZ',\n                           'Thumps':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h3.jpeg\\'\n                           ],\n                           'Photos':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h3.jpeg\\'\n                           ]    \n                      },\n                      {\n                           'Id':'645',\n                           'Type': 1,\n                           'Name':\\'Mũ bảo hiểm Amoro\\',\n                           'Deadline':'Wed Jan 22 2014 19:01:45 GMT+0700',\n                           'Status':'1',\n                           'Timestamp':'AZBDDAZZ',\n                           'Thumps':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thump3.jpeg\\'\n                           ],\n                           'Photos':[\n                            \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thump3.jpeg\\'\n                           ]    \n                      },\n                      {\n                           'Id':'754',\n                           'Type': 1 //1: Bengging, 2: Winner\n                           'Name':\\'Chuột Magic Mouse, hàng bảo hành chính hãng Apple\\',\n                           'Deadline':'Wed Jan 22 2014 19:01:45 GMT+0700',\n                           'Status':'1',\n                           'Timestamp':'AZBDDAZZ',\n                           'Thumps':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h3.jpeg\\'\n                           ],\n                           'Photos':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h3.jpeg\\'\n                           ]    \n                      },\n                      {\n                           'Id':'645',\n                           'Type': 1,\n                           'Name':\\'Mũ bảo hiểm Amoro\\',\n                           'Deadline':'Wed Jan 22 2014 19:01:45 GMT+0700',\n                           'Status':'1',\n                           'Timestamp':'AZBDDAZZ',\n                           'Thumps':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thump3.jpeg\\'\n                           ],\n                           'Photos':[\n                            \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thump3.jpeg\\'\n                           ]    \n                      },\n                      {\n                           'Id':'754',\n                           'Type': 1 //1: Bengging, 2: Winner\n                           'Name':\\'Chuột Magic Mouse, hàng bảo hành chính hãng Apple\\',\n                           'Deadline':'Wed Jan 22 2014 19:01:45 GMT+0700',\n                           'Status':'1',\n                           'Timestamp':'AZBDDAZZ',\n                           'Thumps':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h3.jpeg\\'\n                           ],\n                           'Photos':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/h3.jpeg\\'\n                           ]    \n                      },\n                      {\n                           'Id':'645',\n                           'Type': 1,\n                           'Name':\\'Mũ bảo hiểm Amoro\\',\n                           'Deadline':'Wed Jan 22 2014 19:01:45 GMT+0700',\n                           'Status':'1',\n                           'Timestamp':'AZBDDAZZ',\n                           'Thumps':[\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thump3.jpeg\\'\n                           ],\n                           'Photos':[\n                            \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum1.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thum2.jpg\\',\n                           \\'https://s3-ap-southeast-1.amazonaws.com/imageware-asia/webeng/thump3.jpeg\\'\n                           ]    \n                      }\n                 ],\n        'pager': {'next': '/bengs?p=56555'},\n        'time': \\'Wed Jan 22 2014 19:01:45 GMT+0700\\'\n}";
-			Reader inputStreamReader = new InputStreamReader(is, "UTF-8");
-			final String a = convertStreamToString2(inputStreamReader);
-			parse(tem);
-			// Log.v('aaa',a);
-			Gson gson = new Gson();
-			// listbengs= gson.fromJson(new InputStreamReader(input),
-			// Listbeng.class);
-			JsonReader reader = new JsonReader(new StringReader(
-					convertStreamToString(is)));
-			reader.setLenient(true);
-
-			listbengs = gson.fromJson(inputStreamReader, Listbeng.class);
-
-		} catch (Exception ex) {
-			// getRequest.abort();
-			Log.v("HTTP", "Error for URL " + url, ex);
-		}
-		return listbengs;
-	}
-
-/*	public  ArrayList<BengModelItem> parse(String jsonString) {
-
-		ArrayList<BengModelItem> messages = new ArrayList<BengModelItem>();
-		char[] buf = null;
-		char ch = jsonString.charAt(155);
-
-		if (jsonString != null) {
-			try {
-				JSONArray jsonObject = new JSONArray(jsonString);
-
-				// JSONArray msgs = (JSONArray) jsonObject.get("items");
-				for (int i = 0; i < jsonObject.length(); i++) {
-					JSONObject json_message = jsonObject.getJSONObject(i);
-					if (json_message != null) {
-						BengModelItem objMsg = new BengModelItem();
-						objMsg.setUpdated(json_message.getString("updated"));
-						objMsg.setStatus(json_message.getString("status"));
-						objMsg.setDescription(json_message
-								.getString("description"));
-						objMsg.setContact(json_message.getString("contact"));
-						objMsg.setAddress(json_message.getString("address"));
-						objMsg.setUser(json_message.getString("user"));
-						objMsg.setId(json_message.getString("_id"));
-						objMsg.setType(json_message.getInt("Type"));
-					//	objMsg.setName(json_message.getString("Name"));
-
-						objMsg.setDeadline(json_message.getString("Deadline"));
-
-						objMsg.setWinner((json_message.getString("winner")));
-						objMsg.setPhoto((String[]) json_message.get("photos"));
-						objMsg.set__v(json_message.getString("__v"));
-						// objMsg.setThumps((String[])
-						// (json_message.get("Thumps")));
-						// objMsg.setThumps((String[])
-						// (json_message.get("Photos")));
-						messages.add(objMsg);
-					}
-				}
-
-			} catch (JSONException je) {
-				Log.e("JSONparse", "error while parsing", je);
-			}
-		}
-
-		return messages;
-
-	}*/
+	
+	/*
+	 * public ArrayList<BengModelItem> parse(String jsonString) {
+	 * 
+	 * ArrayList<BengModelItem> messages = new ArrayList<BengModelItem>();
+	 * char[] buf = null; char ch = jsonString.charAt(155);
+	 * 
+	 * if (jsonString != null) { try { JSONArray jsonObject = new
+	 * JSONArray(jsonString);
+	 * 
+	 * // JSONArray msgs = (JSONArray) jsonObject.get("items"); for (int i = 0;
+	 * i < jsonObject.length(); i++) { JSONObject json_message =
+	 * jsonObject.getJSONObject(i); if (json_message != null) { BengModelItem
+	 * objMsg = new BengModelItem();
+	 * objMsg.setUpdated(json_message.getString("updated"));
+	 * objMsg.setStatus(json_message.getString("status"));
+	 * objMsg.setDescription(json_message .getString("description"));
+	 * objMsg.setContact(json_message.getString("contact"));
+	 * objMsg.setAddress(json_message.getString("address"));
+	 * objMsg.setUser(json_message.getString("user"));
+	 * objMsg.setId(json_message.getString("_id"));
+	 * objMsg.setType(json_message.getInt("Type")); //
+	 * objMsg.setName(json_message.getString("Name"));
+	 * 
+	 * objMsg.setDeadline(json_message.getString("Deadline"));
+	 * 
+	 * objMsg.setWinner((json_message.getString("winner")));
+	 * objMsg.setPhoto((String[]) json_message.get("photos"));
+	 * objMsg.set__v(json_message.getString("__v")); //
+	 * objMsg.setThumps((String[]) // (json_message.get("Thumps"))); //
+	 * objMsg.setThumps((String[]) // (json_message.get("Photos")));
+	 * messages.add(objMsg); } }
+	 * 
+	 * } catch (JSONException je) { Log.e("JSONparse", "error while parsing",
+	 * je); } }
+	 * 
+	 * return messages;
+	 * 
+	 * }
+	 */
 
 	private String convertStreamToString2(Reader reader) {
 		int inChar;
@@ -152,12 +98,9 @@ public class Listbengitems extends basehttp {
 		return stringBuffer.toString();
 	}
 
-	
-
 	public class Listbeng {
 		public ArrayList<BengModelItem> listbengs;
-		public pager pager;
-		public String time;
+	
 
 		public Listbeng() {
 			listbengs = new ArrayList<BengModelItem>();
@@ -171,72 +114,22 @@ public class Listbengitems extends basehttp {
 		 */
 	}
 
-	public class pager {
-		private String next;
-
-		public String getNext() {
-			return next;
-		}
-
-		public void setNext(String next) {
-			this.next = next;
-		}
-	}
+	
 
 	@Override
-	public
-	List<NameValuePair> parameters() {
-	 String[] str	= Login.hepler.getUser();
+	public List<NameValuePair> parameters() {
+		String[] str = Login.hepler.getUser();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		nameValuePairs
-				.add(new BasicNameValuePair("token", str[1]));
-		nameValuePairs.add(new BasicNameValuePair("userid",str[0]));
+		nameValuePairs.add(new BasicNameValuePair("token", str[1]));
+		nameValuePairs.add(new BasicNameValuePair("userid", str[0]));
 		return nameValuePairs;
 	}
 
 	@Override
-	public
-	Object parse(String jsonstring) {
+	public Object parse(String jsonstring) {
 		ArrayList<BengModelItem> messages = new ArrayList<BengModelItem>();
-		
-
-		if (jsonstring != null) {
-			try {
-				JSONArray jsonObject = new JSONArray(jsonstring);
-
-				// JSONArray msgs = (JSONArray) jsonObject.get("items");
-				for (int i = 0; i < jsonObject.length(); i++) {
-					JSONObject json_message = jsonObject.getJSONObject(i);
-					if (json_message != null) {
-						BengModelItem objMsg = new BengModelItem();
-						objMsg.setUpdated(json_message.getString("updated"));
-						objMsg.setStatus(json_message.getInt("status"));
-						objMsg.setDescription(json_message
-								.getString("description"));
-						objMsg.setContact(json_message.getString("contact"));
-						objMsg.setAddress(json_message.getString("address"));
-						objMsg.setType(json_message.getInt("bengtype"));
-						objMsg.setDeadline(json_message.getString("deadline"));
-
-						objMsg.setUser(json_message.getString("user"));
-						objMsg.setId(json_message.getString("_id"));
-						
-					//	objMsg.setName(json_message.getString("Name"));
-
-						
-						objMsg.setWinner((Boolean) (json_message.get("winner")));
-						objMsg.setLocation((int[]) json_message.get("location"));
-						objMsg.setPhoto((String[]) json_message.get("photos"));
-						objMsg.set__v(json_message.getString("__v"));
-						
-						messages.add(objMsg);
-					}
-				}
-
-			} catch (JSONException je) {
-				Log.e("JSONparse", "error while parsing", je);
-			}
-		}
+		parseArrayBeng parse = new parseArrayBeng();
+		messages = (ArrayList<BengModelItem>) parse.Parse(jsonstring);
 
 		return messages;
 	}

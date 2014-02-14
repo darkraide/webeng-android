@@ -92,6 +92,7 @@ public class Login extends Activity implements OnClickListener {
 				 Intent homeintent = new Intent(Login.this,
 						 MainActivity.class);
 				startActivity(homeintent);
+				
 			}
 			else{
 				
@@ -107,6 +108,7 @@ public class Login extends Activity implements OnClickListener {
 		case R.id.btnlogin:
 			login Login = new login();
 			Login.execute();
+			//Login.cancel(true);
 			break;
 		}
 	}
