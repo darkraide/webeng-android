@@ -1,5 +1,6 @@
 package com.example.webeng;
 
+import BaseClasses.BaseActivity;
 import Fonts.FontManager;
 import android.os.Bundle;
 import android.app.Activity;
@@ -7,14 +8,14 @@ import android.graphics.Typeface;
 import android.view.Menu;
 import android.widget.TextView;
 
-public class Login extends Activity {
+public class LoginActivity extends BaseActivity{
 	private TextView userid;
 	private TextView password;
 	private TextView webengg;
-	
+	private TextView newUser;
 	FontManager font = FontManager.getInstance();
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
@@ -39,6 +40,11 @@ public class Login extends Activity {
 		userid.setTypeface(mfont.mUntralight);
 		password = (TextView)findViewById(R.id.password);
 		password.setTypeface(mfont.mUntralight);
+
+        newUser=(TextView)findViewById(R.id.SignUp);
+        newUser.setTypeface(mfont.mUntralight);
+
+
 	}
 
 	@Override
