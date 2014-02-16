@@ -30,7 +30,7 @@
             android:layout_gravity="top"
             android:layout_weight="1"
             android:paddingTop="3dp"
-            android:src="@drawable/ic_launcher" />
+             />
 
         <Button
             android:id="@+id/btnlogin"

@@ -1,5 +1,7 @@
 package Adapter;
 
+import http.ImageLoader;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +19,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +37,12 @@ public class BengItemAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 	Context mcontext;
 	private List<BengModelItem> mitems;
-
+	private ImageLoader  imgLoader ;
 	public BengItemAdapter(Context context, List<BengModelItem> items) {
 		mInflater = LayoutInflater.from(context);
 		mcontext = context;
 		mitems = items;
+		imgLoader = new ImageLoader(context);
 	}
 
 	@Override
@@ -98,7 +102,7 @@ public class BengItemAdapter extends BaseAdapter {
 			// convertedDate = null;
 
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Log.v("ParseDeathline",e.toString());
 		}
 		// date.parse("Wed Jan 22 2014 19:01:45 GMT+0700");
 
@@ -108,7 +112,13 @@ public class BengItemAdapter extends BaseAdapter {
 		// holder.getName().setTypeface(font.getInstance().mMedium);
 		holder.getDeadline().setText(dateFormat.format(convertedDate));
 		// holder.getDeadline().setTypeface(font.mBold);
-		holder.getImage().setImageResource(R.drawable.koala);
+		
+		
+		   
+		
+		     imgLoader.DisplayImage(mitems.get(position).getPhoto()[0], holder.getImage());
+
+		//holder.getImage().setImageResource(R.drawable.koala);
 
 		if (mitems.get(position).getType() ==1) {
 			holder.getBeng().setVisibility(View.VISIBLE);

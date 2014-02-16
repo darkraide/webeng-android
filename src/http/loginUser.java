@@ -14,9 +14,13 @@ import android.content.Context;
 import android.util.Log;
 
 public class loginUser extends basehttp {
-	public loginUser(Context context,String Url) {
+	private String mUsername;
+	private String mpassword;
+	public loginUser(Context context,String Url,String Username, String password) {
 		super();
 		this.context = context;
+		this.mUsername = Username;
+		this.mpassword = password;
 		this.url = Url;
 		this.type = 1;
 	}
@@ -39,8 +43,8 @@ public class loginUser extends basehttp {
 	 * e) { // TODO Auto-generated catch block e.printStackTrace(); } catch
 	 * (IOException e) { // TODO Auto-generated catch block e.printStackTrace();
 	 * }
-	 * 
-	 * 
+	 * sangcn@gmail.com
+	 * admin123
 	 * }
 	 */
 
@@ -48,8 +52,8 @@ public class loginUser extends basehttp {
 	public List<NameValuePair> parameters() {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs
-				.add(new BasicNameValuePair("email", "sangcn@gmail.com"));
-		nameValuePairs.add(new BasicNameValuePair("password", "admin123"));
+				.add(new BasicNameValuePair("email", mUsername));
+		nameValuePairs.add(new BasicNameValuePair("password", mpassword));
 		return nameValuePairs;
 	}
 

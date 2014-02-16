@@ -133,7 +133,9 @@ public class MainActivity extends Activity implements OnItemClickListener {
 
 		return super.onOptionsItemSelected(item);
 	}
-
+	public void refresh(View view){          //refresh is onClick name given to the button
+	    onRestart();
+	}
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
@@ -182,7 +184,9 @@ Log.v("listlist",ex.toString());
 				BengItemAdapter bengadapter = new BengItemAdapter(context,
 						items);
 				benglist.setAdapter(bengadapter);
+				
 			}
+			//refresh(MainActivity.);
 			super.onPostExecute(result);
 		}
 

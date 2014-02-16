@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.Menu;
@@ -26,12 +27,24 @@ public class Login extends Activity implements OnClickListener {
 	private Context mcontext;
 	private String url = "http://webenggg.herokuapp.com/user/login";
 	FontManager font = FontManager.getInstance();
+	private static String USER = "Userinfo";
+	private static String USERNAME = "username";
+	private static String PASSWORD = "password";
+	private String Username;
+	private String Password;
+	SharedPreferences mySharedPreferences;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
+		
 		mcontext = this.getApplicationContext();
+		
+		mySharedPreferences = getSharedPreferences(USER,Login.MODE_PRIVATE);
+		
+	
+		
 		Typeface light = Typeface.createFromAsset(getAssets(),
 				"fonts/HelveticaNeue Light.ttf");
 		Typeface medium = Typeface.createFromAsset(getAssets(),
@@ -58,8 +71,34 @@ public class Login extends Activity implements OnClickListener {
 		btnSignin.setTypeface(mfont.mUntralight);
 		btnSignin.setOnClickListener(this);
 		
+		if (mySharedPreferences != null &&
+				mySharedPreferences.contains(USERNAME)) {
+				//object and key found, show all saved values
+			loadUserinfo();
+				}
+		
 	}
 
+	private void saveUserinfo(){
+		SharedPreferences.Editor myEditor = mySharedPreferences.edit();
+		
+		
+		myEditor.putString(USERNAME, userid.getText().toString());
+		myEditor.putString(PASSWORD, password.getText().toString());
+		
+		myEditor.commit();
+	}
+	private void loadUserinfo(){
+		String user,passWord;
+		user = mySharedPreferences.getString(USERNAME, "name");
+		passWord = mySharedPreferences.getString(PASSWORD, "password");
+		userid.setText(user);
+		password.setText(passWord);
+	}
+	private void GetUserinfo(){
+		Username = userid.getText().toString();
+		Password = password.getText().toString();
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -71,7 +110,7 @@ public class Login extends Activity implements OnClickListener {
 
 		@Override
 		protected Boolean doInBackground(String... arg0) {
-			loginUser login = new  loginUser(mcontext,url);
+			loginUser login = new  loginUser(mcontext,url,Username,Password);
 			UserInfor user = (UserInfor) login.valuereturn();
 			if(user != null){
 				hepler	 = new DataBaseHelper(mcontext);
@@ -92,7 +131,7 @@ public class Login extends Activity implements OnClickListener {
 				 Intent homeintent = new Intent(Login.this,
 						 MainActivity.class);
 				startActivity(homeintent);
-				
+				saveUserinfo();
 			}
 			else{
 				
@@ -106,6 +145,7 @@ public class Login extends Activity implements OnClickListener {
 		int id = v.getId();
 		switch(id){
 		case R.id.btnlogin:
+			GetUserinfo();
 			login Login = new login();
 			Login.execute();
 			//Login.cancel(true);

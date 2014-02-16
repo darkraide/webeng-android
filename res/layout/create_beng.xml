@@ -53,7 +53,7 @@
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/btnlogin"
+            android:id="@+id/btndate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
