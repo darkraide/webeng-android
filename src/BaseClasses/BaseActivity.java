@@ -23,7 +23,7 @@ public class BaseActivity extends Activity {
     //To turn/off progress dialogs
     private ProgressDialog pd = null;
 
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 

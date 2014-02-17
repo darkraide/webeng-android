@@ -2,6 +2,8 @@ package Webservices;
 
 import android.util.Log;
 
+import com.google.gson.JsonParser;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
@@ -19,6 +21,8 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +55,8 @@ public class BaseWebServices {
             if(response.getStatusLine().getStatusCode()!= HttpStatus.SC_OK) {
                 throw new HttpException(String.format("status code: %d",response.getStatusLine().getStatusCode()));
             }
-            // writing response to log
-            responseData= response.toString();
+            responseData = getResponse(response);
+
         } catch (ClientProtocolException e) {
             // writing exception to log
             e.printStackTrace();
@@ -65,6 +69,20 @@ public class BaseWebServices {
             return responseData;
         }
     }
+
+    private String getResponse(HttpResponse response) throws IOException {
+        String responseData;
+        // writing response to log
+        HttpEntity getResponseEntity = response.getEntity();
+        BufferedHttpEntity buf = new BufferedHttpEntity(getResponseEntity);
+
+        InputStream is = buf.getContent();
+        Reader inputStreamReader = new InputStreamReader(is, "UTF-8");
+        responseData=streamToString(inputStreamReader);
+        Log.d("response", responseData);
+        return responseData;
+    }
+
     public String getRequest(String uri){
         return getRequest(uri,null,null);
     }
@@ -79,8 +97,8 @@ public class BaseWebServices {
 
         if(token!=null)
             httpPost.addHeader("token",token);
-
-        httpPost.addHeader("Content-Type","application/json");
+        if(jsonBody!=null)
+            httpPost.addHeader("Content-Type","application/json");
 
         String responseData=null;
         // Making HTTP Request
@@ -93,7 +111,7 @@ public class BaseWebServices {
             HttpResponse response = httpClient.execute(httpPost);
 
             // writing response to log
-            responseData= response.toString();
+            responseData = getResponse(response);
         } catch (ClientProtocolException e) {
             // writing exception to log
             e.printStackTrace();
@@ -111,5 +129,21 @@ public class BaseWebServices {
     }
     public String postRequest(String uri,List<NameValuePair> body){
         return postRequest(uri,null,body,null,null);
+    }
+
+    private String streamToString(Reader reader) {
+        int inChar;
+        StringBuffer stringBuffer = new StringBuffer();
+
+        try {
+            while ((inChar = reader.read()) != -1) {
+                stringBuffer.append((char) inChar);
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+        }
+
+        return stringBuffer.toString();
     }
 }

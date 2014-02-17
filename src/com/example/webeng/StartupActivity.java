@@ -12,7 +12,7 @@ import BaseClasses.BaseActivity;
 public class StartupActivity extends BaseActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getActionBar().hide();
+        //this.getActionBar().hide();
 
         SharedPreferences sp=getSharedPreferences();
 
@@ -21,7 +21,7 @@ public class StartupActivity extends BaseActivity{
         if(userid==null){
             gotoActivity(LoginActivity.class);
         }else
-            gotoActivity(CreateBeng.class);
+            gotoActivity(MainActivity.class);
 
 
         finish();

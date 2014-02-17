@@ -1,215 +1,240 @@
 package com.example.webeng;
 
-import http.getlistbengitems;
-import http.getlistbengitems.Listbeng;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import models.BengModelItem;
-import models.BengModelListItem;
-import models.BengModelListItem.BengType;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import Adapter.BengItemAdapter;
-import Fonts.FontManager;
-import android.os.AsyncTask;
-import android.os.Bundle;
-
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnItemClickListener {
+import java.util.ArrayList;
+import java.util.List;
 
-	private static ListView benglist;
-	private static List<BengModelItem> items;
-	private static Context context;
-	private static ProgressBar getitem;
-	FontManager font =	FontManager.getInstance();
+import Adapter.BengItemAdapter;
+import BaseClasses.BaseActivity;
+import Fonts.FontManager;
+import Webservices.BengWebServices;
+import Widget.PullAndLoadListView;
+import Widget.PullToRefreshListView;
+import models.BengModelItem;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+public class MainActivity extends BaseActivity implements OnItemClickListener {
+
+    private static List<BengModelItem> items;
+    private static Context context;
+    private static ProgressBar progressBar;
+    FontManager font = FontManager.getInstance();
+    BengItemAdapter bengAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
 
-		benglist = (ListView) findViewById(R.id.ListBeng);
+        progressBar = (ProgressBar) findViewById(R.id.progressGetItem);
+        LayoutInflater inflator = (LayoutInflater) this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.mymenu, null);
 
-		getitem = (ProgressBar) findViewById(R.id.progressGetItem);
-		// benglist.addFooterView(getitem);
-		LayoutInflater inflator = (LayoutInflater) this
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inflator.inflate(R.layout.mymenu, null);
+        final TextView title = ((TextView) v.findViewById(R.id.titleActivity));
+        final ImageButton btn_newbeng = ((ImageButton) v
+                .findViewById(R.id.createbeng));
+        btn_newbeng.setOnClickListener(new OnClickListener() {
 
-		final TextView title = ((TextView) v.findViewById(R.id.titleActivity));
-		final ImageButton btn_newbeng = ((ImageButton) v
-				.findViewById(R.id.createbeng));
-		btn_newbeng.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntentA1A2 = new Intent(MainActivity.this,
+                        CreateBeng.class);
+                startActivity(myIntentA1A2);
 
-			@Override
-			public void onClick(View v) {
-				Intent myIntentA1A2 = new Intent(MainActivity.this,
-						CreateBeng.class);
-				startActivity(myIntentA1A2);
+            }
+        });
+        title.setTypeface(font.mMedium);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
-			}
-		});
-		title.setTypeface(font.mMedium);
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        lp.gravity = Gravity.CENTER;
+        title.setGravity(Gravity.CENTER);
+        title.setMaxEms(10);
+        title.setMaxLines(1);
+        v.setLayoutParams(lp);
+        getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getActionBar().setCustomView(v);
 
-		lp.gravity = Gravity.CENTER;
-		title.setGravity(Gravity.CENTER);
-		title.setMaxEms(10);
-		title.setMaxLines(1);
-		v.setLayoutParams(lp);
-		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		getActionBar().setCustomView(v);
+        items = new ArrayList<BengModelItem>();
+        // font
 
-		items = new ArrayList<BengModelItem>();
-		// font
+        context = this.getApplicationContext();
 
-		context = this.getApplicationContext();
+        getListView().setOnItemClickListener(this);
+        getListView().setEmptyView(findViewById(R.id.emptyList));
+        SharedPreferences sp = getSharedPreferences();
+        final CharSequence userid = sp.getString("userid", null);
+        final CharSequence token = sp.getString("token", null);
 
-		benglist.setOnItemClickListener(this);
-		benglist.setEmptyView(findViewById(R.id.emptyList));
+        if (userid == null || token == null) {
+            gotoActivity(LoginActivity.class);
+            finish();
+            return;
+        }
 
-		getBengItem beng = new getBengItem();
-		beng.execute();
-	}
+        final BengAsyncTask task = new BengAsyncTask();
+        task.execute(userid.toString(), token.toString());
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+        // Set a listener to be invoked when the list should be refreshed.
+        getListView()
+                .setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
 
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
+                    public void onRefresh() {
+                        // Do work to refresh the list here.
+                        new PullDownAsyncTask().execute(userid.toString(), token.toString());
+                    }
+                });
+        getListView()
+        .setOnLoadMoreListener(new PullAndLoadListView.OnLoadMoreListener() {
 
-		Toast.makeText(getApplicationContext(), "create benggg",
-				Toast.LENGTH_SHORT).show();
+            public void onLoadMore() {
+                // Do the work to load more items at the end of list
+                // here
+                new PullDownAsyncTask().execute(userid.toString(), token.toString());
+            }
+        });
 
-		return super.onContextItemSelected(item);
-	}
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.create) {
-			this.setContentView(R.layout.create_beng);
-			Toast.makeText(getApplicationContext(), "create benggg",
-					Toast.LENGTH_SHORT).show();
-		}
+    private PullAndLoadListView getListView() {
+        return (PullAndLoadListView) findViewById(R.id.ListBeng);
+    }
 
-		return super.onOptionsItemSelected(item);
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
 
-	}
+        Toast.makeText(getApplicationContext(), "create benggg",
+                Toast.LENGTH_SHORT).show();
 
-	public class getBengItem extends
-			AsyncTask<String, Long, List<BengModelItem>> {
+        return super.onContextItemSelected(item);
+    }
 
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			getitem.setVisibility(View.VISIBLE);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.create) {
+            this.setContentView(R.layout.create_beng);
+            Toast.makeText(getApplicationContext(), "create benggg",
+                    Toast.LENGTH_SHORT).show();
+        }
 
-			super.onPreExecute();
-		}
+        return super.onOptionsItemSelected(item);
+    }
 
-		@Override
-		protected List<BengModelItem> doInBackground(String... arg0) {
-			List<BengModelItem> list = new ArrayList<BengModelItem>();
-			Listbeng benglist = null;
-			Bitmap bitmap = null;
-			try {
-				/*
-				 * URL url = new
-				 * URL("http://0.tqn.com/d/webclipart/1/0/5/l/4/floral-icon-5.jpg"
-				 * ); //try this url =
-				 * "http://0.tqn.com/d/webclipart/1/0/5/l/4/floral-icon-5.jpg"
-				 * HttpGet httpRequest = null;
-				 * 
-				 * httpRequest = new HttpGet(url.toURI());
-				 * 
-				 * HttpClient httpclient = new DefaultHttpClient(); HttpResponse
-				 * response = (HttpResponse) httpclient .execute(httpRequest);
-				 * 
-				 * HttpEntity entity = response.getEntity(); BufferedHttpEntity
-				 * b_entity = new BufferedHttpEntity(entity); InputStream input
-				 * = b_entity.getContent();
-				 * 
-				 * bitmap = BitmapFactory.decodeStream(input);
-				 */
-				getlistbengitems getbenglist = new getlistbengitems();
-				benglist = getbenglist.getall();
+    @Override
+    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        // TODO Auto-generated method stub
 
-				// Message msg = handler.obtainMessage(1, bitmap);
-				// handler.sendMessage(msg);
+    }
 
-			} catch (Exception ex) {
+    private class BengAsyncTask extends
+            AsyncTask<String, Long, List<BengModelItem>> {
 
-			}
-			if (benglist != null)
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            progressBar.setVisibility(View.VISIBLE);
 
-				return benglist.listbengs;
-			return null;
+            super.onPreExecute();
+        }
 
-		}
+        @Override
+        protected List<BengModelItem> doInBackground(String... arg0) {
+            try {
 
-		@Override
-		protected void onPostExecute(List<BengModelItem> result) {
-			if (result != null && result.size() > 0) {
-				items = result;
-				BengItemAdapter bengadapter = new BengItemAdapter(context,
-						items);
-				benglist.setAdapter(bengadapter);
-			}
-			super.onPostExecute(result);
-		}
+                String index="0";
 
-		@Override
-		protected void onProgressUpdate(Long... values) {
-			getitem.setVisibility(View.VISIBLE);
-			benglist.setVisibility(View.INVISIBLE);
-			super.onProgressUpdate(values);
-		}
+                if(items!=null&&items.get(0)!=null)
+                    index=items.get(0).getUpdated();
 
-	}
+                List<BengModelItem> result = new BengWebServices(getResources().getString(R.string.serverhost)).getBengs(index,arg0[0], arg0[1]);
+                return result;
+            } catch (Exception ex) {
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<BengModelItem> result) {
+            if (result != null && result.size() > 0) {
+                if (items != null) {
+                    items.addAll(result);
+                } else
+                    items = result;
+                if (bengAdapter == null) {
+                    bengAdapter = new BengItemAdapter(context,
+                            items);
+                    getListView().setAdapter(bengAdapter);
+                }
+                bengAdapter.notifyDataSetChanged();
+            }
+            super.onPostExecute(result);
+        }
+
+        @Override
+        protected void onProgressUpdate(Long... values) {
+            progressBar.setVisibility(View.VISIBLE);
+            getListView().setVisibility(View.INVISIBLE);
+            super.onProgressUpdate(values);
+        }
+
+    }
+
+    private class PullDownAsyncTask extends BengAsyncTask {
+        @Override
+        protected void onPostExecute(List<BengModelItem> result) {
+            if (result != null && result.size() > 0) {
+                if (items != null) {
+                    items.addAll(0,result);
+                } else
+                    items = result;
+                if (bengAdapter == null){
+                    bengAdapter = new BengItemAdapter(context,
+                            items);
+
+                    getListView().setAdapter(bengAdapter);
+                }
+                bengAdapter.notifyDataSetChanged();
+            }
+            getListView().onRefreshComplete();
+            getListView().onLoadMoreComplete();
+            super.onPostExecute(result);
+        }
+        @Override
+        protected void onCancelled() {
+            // Notify the loading more operation has finished
+            getListView().onRefreshComplete();
+            getListView().onLoadMoreComplete();
+
+        }
+    }
 
 }

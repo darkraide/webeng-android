@@ -15,8 +15,7 @@ import models.Login;
  */
 public class LoginWebServices extends BaseWebServices {
     private String Uri="/user/login";
-    private String host;
-    private LoginWebServices(String host) {
+    public LoginWebServices(String host) {
         super(host);
     }
     public Login Login(String userName,String password){
@@ -24,8 +23,8 @@ public class LoginWebServices extends BaseWebServices {
         body.add(new BasicNameValuePair("email",userName));
         body.add(new BasicNameValuePair("password",password));
 
-        String jsonData=this.postRequest(host + Uri,body );
-        if(jsonData!=null){
+        String jsonData=this.postRequest(_host + Uri,body );
+        if(null != jsonData){
             return new Gson().fromJson(jsonData,Login.class);
         }
         return  null;
