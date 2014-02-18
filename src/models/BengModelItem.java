@@ -4,9 +4,9 @@ package models;
 
 
 public class BengModelItem {
-	public BengModelItem(String updated, int status, String description,
+	public BengModelItem(String updated, String status, String description,
 			String contact, String address, int type, String deadline,
-			String user, String id, boolean winner, int[] location,
+			String user, String id, String winner, String[] location,
 			String[] photo, String __v) {
 		super();
 		this.updated = updated;
@@ -24,7 +24,7 @@ public class BengModelItem {
 		this.__v = __v;
 	}
 	private String updated;
-	private int status;
+	private String status;
 	private String description;
 	private String contact;
 	private String address;
@@ -32,8 +32,8 @@ public class BengModelItem {
 	private String deadline;
 	private String user;
 	private String id;
-	private boolean winner;
-	private int[] location;
+	private String winner;
+	private String[] location;
 //	private String name;
 	
 	
@@ -76,11 +76,11 @@ public class BengModelItem {
 		this.deadline = deadline;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -144,10 +144,10 @@ public class BengModelItem {
 	public void set__v(String __v) {
 		this.__v = __v;
 	}
-	public int[] getLocation() {
+	public String[] getLocation() {
 		return location;
 	}
-	public void setLocation(int[] location) {
+	public void setLocation(String[] location) {
 		this.location = location;
 	}
 	public String getAddress() {
@@ -162,10 +162,10 @@ public class BengModelItem {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public boolean getWinner() {
+	public String getWinner() {
 		return winner;
 	}
-	public void setWinner(boolean winner) {
+	public void setWinner(String winner) {
 		this.winner = winner;
 	}
 	public String getContact() {

@@ -17,7 +17,7 @@
     android:textAlignment="center"
     tools:context=".MainActivity" >
 
-    <ListView
+    <Widget.PullAndLoadListView
         android:id="@+id/ListBeng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,18 +28,16 @@
         android:layout_marginTop="0dp"
         android:descendantFocusability="blocksDescendants"
         android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"
-        android:focusableInTouchMode="true"
-        android:padding="1dp"
-        android:paddingLeft="0dp" >
+        android:dividerHeight="5sp"
+        android:focusableInTouchMode="true">
 
-    </ListView>
+    </Widget.PullAndLoadListView>
 
     <ProgressBar
         android:id="@+id/progressGetItem"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_gravity="center_vertical|center_horizontal|center"
         android:visibility="invisible" />
 

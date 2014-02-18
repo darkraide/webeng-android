@@ -1,25 +1,20 @@
 package Adapter;
 
-import http.ImageLoader;
-
 import java.text.DateFormat;
-import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
+import java.util.Locale;
 
 import com.example.webeng.R;
 
 import models.BengModelItem;
-import models.BengModelListItem.BengType;
 
 import Fonts.FontManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,17 +27,14 @@ import android.widget.TextView;
 
 public class BengItemAdapter extends BaseAdapter {
 	FontManager font = new FontManager();
-	// private static final String Name = "Beng : ";
-	// private static final String Deadline = "Deadline : ";
 	private LayoutInflater mInflater;
 	Context mcontext;
 	private List<BengModelItem> mitems;
-	private ImageLoader  imgLoader ;
+
 	public BengItemAdapter(Context context, List<BengModelItem> items) {
 		mInflater = LayoutInflater.from(context);
 		mcontext = context;
 		mitems = items;
-		imgLoader = new ImageLoader(context);
 	}
 
 	@Override
@@ -68,7 +60,7 @@ public class BengItemAdapter extends BaseAdapter {
 
 		BengItem holder;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.imagedata, null);
+			convertView = mInflater.inflate(R.layout.bengitemlayout, null);
 			holder = new BengItem();
 
 			holder.setName((TextView) convertView.findViewById(R.id.NameItem));
@@ -90,35 +82,24 @@ public class BengItemAdapter extends BaseAdapter {
 		}
 		Date date = new Date();
 		DateFormat fm = DateFormat.getDateTimeInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"hh:mm:ss dd-MM-yyyy");
-		TimeZone timezone = TimeZone.getTimeZone("Etc/GMT+7");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
+		//TimeZone timezone = TimeZone.getTimeZone("GMT");
 
-		dateFormat.setTimeZone(timezone);
+		//dateFormat.setTimeZone(timezone);
 		Date convertedDate = null;
-		try {
-			convertedDate = dateFormat.parse("20:33:00 05-03-2014");
-		} catch (ParseException e) {
-			// convertedDate = null;
-
-			// TODO Auto-generated catch block
-		Log.v("ParseDeathline",e.toString());
-		}
-		// date.parse("Wed Jan 22 2014 19:01:45 GMT+0700");
+        ParsePosition parseErr=new ParsePosition(0);
+        convertedDate = dateFormat.parse(mitems.get(position).getDeadline().trim(),parseErr);
+        dateFormat.applyPattern("HH:mm:ss dd-MM-yyyy");
+        if(parseErr.getErrorIndex()<0)
+            holder.getDeadline().setText(dateFormat.format(convertedDate));
 
 		// ((TextView)
 		// convertView.findViewById(R.id.date)).setTypeface(font.mMedium);
 		holder.getName().setText(mitems.get(position).getDescription());
 		// holder.getName().setTypeface(font.getInstance().mMedium);
-		holder.getDeadline().setText(dateFormat.format(convertedDate));
-		// holder.getDeadline().setTypeface(font.mBold);
-		
-		
-		   
-		
-		     imgLoader.DisplayImage(mitems.get(position).getPhoto()[0], holder.getImage());
 
-		//holder.getImage().setImageResource(R.drawable.koala);
+		// holder.getDeadline().setTypeface(font.mBold);
+		holder.getImage().setImageResource(R.drawable.koala);
 
 		if (mitems.get(position).getType() ==1) {
 			holder.getBeng().setVisibility(View.VISIBLE);

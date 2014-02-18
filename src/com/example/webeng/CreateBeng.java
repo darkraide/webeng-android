@@ -1,11 +1,9 @@
 package com.example.webeng;
 
 import Fonts.FontManager;
-import Picker.TimePickerFragment;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +11,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CreateBeng extends Activity {
 
-	Button btnpickdate;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -49,16 +45,6 @@ public class CreateBeng extends Activity {
 		getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); 
 		getActionBar().setCustomView(v);
 
-		btnpickdate = (Button)findViewById(R.id.btndate);
-		btnpickdate.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				 DialogFragment newFragment = new TimePickerFragment();
-				    newFragment.show(getFragmentManager(), "timePicker");
-				
-			}
-		});
 	}
 	
 
