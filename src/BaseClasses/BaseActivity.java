@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.webeng.LoginActivity;
 import com.example.webeng.WebengApplication;
 
 /**
@@ -68,5 +69,18 @@ public class BaseActivity extends Activity {
         Toast mToast = Toast.makeText(this, s, Toast.LENGTH_SHORT);
         mToast.show();
         Log.d(tag, message);
+    }
+    public Boolean handleHttpCode(Integer code){
+        if(code==401){
+            SharedPreferences sp=getSharedPreferences();
+            SharedPreferences.Editor spe=sp.edit();
+
+            spe.putString("userid",null);
+            spe.putString("token",null);
+            gotoActivity(LoginActivity.class);
+            finish();
+            return false;
+        }
+        return  true;
     }
 }
