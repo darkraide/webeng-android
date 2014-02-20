@@ -52,6 +52,7 @@ public class LoginActivity extends BaseActivity{
         newUser.setTypeface(mfont.mUntralight);
         btnLogin=(Button)findViewById(R.id.btnlogin);
         btnLogin.setTypeface(mfont.mUntralight);
+        
 	}
 
 	@Override
@@ -85,6 +86,7 @@ public class LoginActivity extends BaseActivity{
                 srp.putString("token",logged.getToken());
                 srp.commit();
                 gotoActivity(MainActivity.class);
+                
                 finish();
                 return true;
             }

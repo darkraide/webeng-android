@@ -33,9 +33,10 @@ import java.util.List;
  */
 public class BaseWebServices {
     protected String _host="";
-
+    protected Integer errorCode;
     public BaseWebServices(String host){
         _host=host;
+        errorCode = 0;
     }
     public String getRequest(String uri,String userId,String token){
         // Creating HTTP client
@@ -53,7 +54,8 @@ public class BaseWebServices {
         try {
             HttpResponse response = httpClient.execute(httpGet);
             if(response.getStatusLine().getStatusCode()!= HttpStatus.SC_OK) {
-                throw new HttpException(String.format("status code: %d",response.getStatusLine().getStatusCode()));
+                errorCode=response.getStatusLine().getStatusCode();
+                return  null;
             }
             responseData = getResponse(response);
 
@@ -69,6 +71,7 @@ public class BaseWebServices {
             return responseData;
         }
     }
+
 
     private String getResponse(HttpResponse response) throws IOException {
         String responseData;
@@ -109,7 +112,10 @@ public class BaseWebServices {
                 httpPost.setEntity(new UrlEncodedFormEntity(body));
 
             HttpResponse response = httpClient.execute(httpPost);
-
+            if(response.getStatusLine().getStatusCode()!= HttpStatus.SC_OK) {
+                errorCode=response.getStatusLine().getStatusCode();
+                return  null;
+            }
             // writing response to log
             responseData = getResponse(response);
         } catch (ClientProtocolException e) {
@@ -145,5 +151,9 @@ public class BaseWebServices {
         }
 
         return stringBuffer.toString();
+    }
+
+    public Integer getErrorCode() {
+        return errorCode;
     }
 }

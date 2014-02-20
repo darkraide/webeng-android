@@ -17,7 +17,7 @@
     android:textAlignment="center"
     tools:context=".MainActivity" >
 
-    <Widget.PullAndLoadListView
+    <widget.PullAndLoadListView
         android:id="@+id/ListBeng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         android:dividerHeight="5sp"
         android:focusableInTouchMode="true">
 
-    </Widget.PullAndLoadListView>
+    </widget.PullAndLoadListView>
 
     <ProgressBar
         android:id="@+id/progressGetItem"

@@ -1,5 +1,7 @@
 package Adapter;
 
+import imageutils.ImageLoader;
+
 import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -7,16 +9,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+
 import com.example.webeng.R;
+import com.example.webeng.ViewImages;
 
 import models.BengModelItem;
 
 import Fonts.FontManager;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -26,15 +32,18 @@ import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 public class BengItemAdapter extends BaseAdapter {
-	FontManager font = new FontManager();
+	private FontManager font = new FontManager();
 	private LayoutInflater mInflater;
-	Context mcontext;
+	private Context mcontext;
+	private final ImageLoader imgLoader;
 	private List<BengModelItem> mitems;
+	private static final String PHOTOS = "photos";
 
 	public BengItemAdapter(Context context, List<BengModelItem> items) {
 		mInflater = LayoutInflater.from(context);
 		mcontext = context;
 		mitems = items;
+		imgLoader = new ImageLoader(mcontext);
 	}
 
 	@Override
@@ -97,11 +106,25 @@ public class BengItemAdapter extends BaseAdapter {
 		// convertView.findViewById(R.id.date)).setTypeface(font.mMedium);
 		holder.getName().setText(mitems.get(position).getDescription());
 		// holder.getName().setTypeface(font.getInstance().mMedium);
-
+		final int  pos = position;
+		holder.getImage().setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				
+				Intent intent = new Intent(mcontext,ViewImages.class) ;
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intent.putExtra(PHOTOS, mitems.get(pos).getPhotos());
+				mcontext.startActivity(intent);
+				// startActivity(intent);
+			}
+		});
+		imgLoader.DisplayImage(mitems.get(position).getPhotos()[0], holder.getImage());
 		// holder.getDeadline().setTypeface(font.mBold);
-		holder.getImage().setImageResource(R.drawable.koala);
+		//holder.getImage().setImageResource(R.drawable.koala);
 
-		if (mitems.get(position).getType() ==1) {
+		if (mitems.get(position).getBengtype() ==1) {
 			holder.getBeng().setVisibility(View.VISIBLE);
 			// holder.getBeng().setTypeface(font.mBold);
 			holder.getDeadline().setTextColor(Color.parseColor("#e4511d"));
@@ -133,5 +156,4 @@ public class BengItemAdapter extends BaseAdapter {
 		}
 		return convertView;
 	}
-
 }

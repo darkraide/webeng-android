@@ -25,6 +25,9 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f050000;
         public static final int activity_vertical_margin=0x7f050001;
+        public static final int padding_large=0x7f050004;
+        public static final int padding_medium=0x7f050003;
+        public static final int padding_small=0x7f050002;
     }
     public static final class drawable {
         public static final int banner=0x7f020000;
@@ -63,7 +66,7 @@ public final class R {
         public static final int Post=0x7f09002c;
         public static final int ScrollView1=0x7f09001a;
         public static final int SignUp=0x7f090004;
-        public static final int action_settings=0x7f090043;
+        public static final int action_settings=0x7f090044;
         public static final int available_detail=0x7f090029;
         public static final int back=0x7f090024;
         public static final int bengplace=0x7f09001f;
@@ -77,7 +80,7 @@ public final class R {
         public static final int ckMale=0x7f09003e;
         public static final int contact=0x7f090021;
         public static final int contact_detail=0x7f09002a;
-        public static final int create=0x7f090044;
+        public static final int create=0x7f090045;
         public static final int createbeng=0x7f090031;
         public static final int date=0x7f090013;
         public static final int deadline=0x7f09001d;
@@ -117,6 +120,7 @@ public final class R {
         public static final int userid=0x7f090001;
         public static final int view1=0x7f090019;
         public static final int viewFlipper=0x7f09003a;
+        public static final int view_pager=0x7f090043;
         public static final int webengg=0x7f090000;
     }
     public static final class layout {
@@ -133,6 +137,7 @@ public final class R {
         public static final int pull_to_refresh_header=0x7f03000a;
         public static final int startup_activity=0x7f03000b;
         public static final int user_create=0x7f03000c;
+        public static final int viewimage=0x7f03000d;
     }
     public static final class menu {
         public static final int login=0x7f080000;

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +32,6 @@ import Adapter.BengItemAdapter;
 import BaseClasses.BaseActivity;
 import Fonts.FontManager;
 import Webservices.BengWebServices;
-
 
 import models.BengModelItem;
 
@@ -114,10 +114,10 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             public void onLoadMore() {
                 // Do the work to load more items at the end of list
                 // here
-                new PullDownAsyncTask().execute(userid.toString(), token.toString());
+                new LoadMoreAsyncTask().execute(userid.toString(), token.toString());
             }
         });
-
+        getListView().setDrawSelectorOnTop(true);
     }
 
     private PullAndLoadListView getListView() {
@@ -174,13 +174,21 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
                 String index="0";
 
-                if(items!=null&&items.get(0)!=null)
-                    index=items.get(0).getUpdated();
-
-                List<BengModelItem> result = new BengWebServices(getResources().getString(R.string.serverhost)).getBengs(index,arg0[0], arg0[1]);
+                if(items!=null&&items.isEmpty()==false)
+                    index=items.get(items.size()-1).getUpdated();
+                Log.d("async",index.toString());
+                List<BengModelItem> result;
+                BengWebServices bws=new BengWebServices(getResources().getString(R.string.serverhost));
+                result = bws.getBengs(index,arg0[0], arg0[1]);
+                if(result==null)
+                {
+                    if(handleHttpCode(bws.getErrorCode())){
+                        result=bws.getBengs(index,arg0[0], arg0[1]);
+                    }
+                }
                 return result;
             } catch (Exception ex) {
-
+                ex.printStackTrace();
             }
             return null;
         }
@@ -189,6 +197,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         protected void onPostExecute(List<BengModelItem> result) {
             if (result != null && result.size() > 0) {
                 if (items != null) {
+
                     items.addAll(result);
                 } else
                     items = result;
@@ -199,6 +208,8 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 }
                 bengAdapter.notifyDataSetChanged();
             }
+            //progressBar.setVisibility(View.INVISIBLE);
+            //getListView().setVisibility(View.VISIBLE);
             super.onPostExecute(result);
         }
 
@@ -214,27 +225,27 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     private class PullDownAsyncTask extends BengAsyncTask {
         @Override
         protected void onPostExecute(List<BengModelItem> result) {
-            if (result != null && result.size() > 0) {
-                if (items != null) {
-                    items.addAll(0,result);
-                } else
-                    items = result;
-                if (bengAdapter == null){
-                    bengAdapter = new BengItemAdapter(context,
-                            items);
 
-                    getListView().setAdapter(bengAdapter);
-                }
-                bengAdapter.notifyDataSetChanged();
-            }
             getListView().onRefreshComplete();
-            getListView().onLoadMoreComplete();
             super.onPostExecute(result);
         }
         @Override
         protected void onCancelled() {
             // Notify the loading more operation has finished
             getListView().onRefreshComplete();
+
+        }
+    }
+    private class LoadMoreAsyncTask extends BengAsyncTask {
+        @Override
+        protected void onPostExecute(List<BengModelItem> result) {
+            getListView().onLoadMoreComplete();
+            super.onPostExecute(result);
+
+        }
+        @Override
+        protected void onCancelled() {
+            // Notify the loading more operation has finished
             getListView().onLoadMoreComplete();
 
         }

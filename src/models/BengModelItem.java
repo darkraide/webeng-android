@@ -14,13 +14,13 @@ public class BengModelItem {
 		this.description = description;
 		this.contact = contact;
 		this.address = address;
-		this.type = type;
+		this.setBengtype(type);
 		this.deadline = deadline;
 		this.user = user;
-		this.id = id;
+		this.setId(id);
 		this.winner = winner;
 		this.location = location;
-		this.photo = photo;
+		this.setPhotos(photo);
 		this.__v = __v;
 	}
 	private String updated;
@@ -28,10 +28,10 @@ public class BengModelItem {
 	private String description;
 	private String contact;
 	private String address;
-	private int type;
+	private int bengtype;
 	private String deadline;
 	private String user;
-	private String id;
+	private String _id;
 	private String winner;
 	private String[] location;
 //	private String name;
@@ -41,7 +41,7 @@ public class BengModelItem {
 	
 	
 	//private String[] thumps;
-	private String[] photo;
+	private String[] photos;
 	private String __v;
 	
 	
@@ -50,14 +50,7 @@ public class BengModelItem {
 	public BengModelItem() {
 	
 	}
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+	
 	
 
 	/*public String getName() {
@@ -94,21 +87,7 @@ public class BengModelItem {
 
 	
 
-	public String[] getPhoto() {
-		return photo;
-	}
 
-	public void setPhoto(String[] photo) {
-		this.photo = photo;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
 /*		return location;
 	}
 	public void setLocation(String[] location) {
@@ -179,6 +158,42 @@ public class BengModelItem {
 	}
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+
+
+	public int getBengtype() {
+		return bengtype;
+	}
+
+
+
+	public void setBengtype(int bengtype) {
+		this.bengtype = bengtype;
+	}
+
+
+
+	public String getId() {
+		return _id;
+	}
+
+
+
+	public void setId(String _id) {
+		this._id = _id;
+	}
+
+
+
+	public String[] getPhotos() {
+		return photos;
+	}
+
+
+
+	public void setPhotos(String[] photos) {
+		this.photos = photos;
 	}
 
 }
