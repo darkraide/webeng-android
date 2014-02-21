@@ -2,6 +2,7 @@ package Adapter;
 
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class BengItem {
@@ -10,7 +11,7 @@ public class BengItem {
     private ImageView mImage;
     private Button btnBeng;
     private Button btnViewResult;
-   
+   private ProgressBar progress;
 	public TextView getName() {
 		return mName;
 	}
@@ -40,6 +41,12 @@ public class BengItem {
 	}
 	public void setViewResult(Button btnViewResult) {
 		this.btnViewResult = btnViewResult;
+	}
+	public ProgressBar getProgress() {
+		return progress;
+	}
+	public void setProgress(ProgressBar progress) {
+		this.progress = progress;
 	}
 	
     

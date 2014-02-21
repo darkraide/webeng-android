@@ -15,6 +15,7 @@ import com.example.webeng.ViewImages;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
@@ -35,6 +36,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -55,11 +58,12 @@ public class BengItemAdapter extends BaseAdapter {
 		mcontext = context;
 		mitems = items;
 		options = new DisplayImageOptions.Builder()
-				.showImageOnLoading(R.drawable.ic_stub)
+				
 				.showImageForEmptyUri(R.drawable.ic_empty)
 				.showImageOnFail(R.drawable.ic_error).cacheInMemory(true)
 				.cacheOnDisc(true).considerExifParams(true)
-				.displayer(new RoundedBitmapDisplayer(20)).imageScaleType(ImageScaleType.EXACTLY).build();
+				.displayer(new RoundedBitmapDisplayer(20))
+				.imageScaleType(ImageScaleType.EXACTLY).build();
 
 	}
 
@@ -84,11 +88,12 @@ public class BengItemAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		imageLoader.init(ImageLoaderConfiguration.createDefault(mcontext));
-		BengItem holder;
+		final BengItem holder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.bengitemlayout, null);
 			holder = new BengItem();
-
+			holder.setProgress((ProgressBar) convertView
+					.findViewById(R.id.loading));
 			holder.setName((TextView) convertView.findViewById(R.id.NameItem));
 
 			holder.setDeadline((TextView) convertView
@@ -138,9 +143,47 @@ public class BengItemAdapter extends BaseAdapter {
 				// startActivity(intent);
 			}
 		});
-		
+
 		imageLoader.displayImage(this.mitems.get(position).getPhotos()[0],
-				holder.getImage(), options, animateFirstListener);
+				holder.getImage(), options, new SimpleImageLoadingListener() {
+					@Override
+					public void onLoadingStarted(String imageUri, View view) {
+						holder.getProgress().setVisibility(View.VISIBLE);
+					}
+
+					@Override
+					public void onLoadingFailed(String imageUri, View view,
+							FailReason failReason) {
+						String message = null;
+						switch (failReason.getType()) {
+						case IO_ERROR:
+							message = "Input/Output error";
+							break;
+						case DECODING_ERROR:
+							message = "Image can't be decoded";
+							break;
+						case NETWORK_DENIED:
+							message = "Downloads are denied";
+							break;
+						case OUT_OF_MEMORY:
+							message = "Out Of Memory error";
+							break;
+						case UNKNOWN:
+							message = "Unknown error";
+							break;
+						}
+						Toast.makeText(mcontext, message,
+								Toast.LENGTH_SHORT).show();
+
+						holder.getProgress().setVisibility(View.GONE);
+					}
+
+					@Override
+					public void onLoadingComplete(String imageUri, View view,
+							Bitmap loadedImage) {
+						holder.getProgress().setVisibility(View.GONE);
+					}
+				});
 		// imgLoader.DisplayImage(mitems.get(position).getPhotos()[0],
 		// holder.getImage());
 		// holder.getDeadline().setTypeface(font.mBold);
