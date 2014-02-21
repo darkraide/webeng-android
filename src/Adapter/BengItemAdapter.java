@@ -1,17 +1,25 @@
 package Adapter;
 
-import imageutils.ImageLoader;
-
 import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-
 import com.example.webeng.R;
 import com.example.webeng.ViewImages;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import models.BengModelItem;
 
@@ -19,6 +27,7 @@ import Fonts.FontManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,15 +44,23 @@ public class BengItemAdapter extends BaseAdapter {
 	private FontManager font = new FontManager();
 	private LayoutInflater mInflater;
 	private Context mcontext;
-	private final ImageLoader imgLoader;
+	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	private List<BengModelItem> mitems;
 	private static final String PHOTOS = "photos";
+	DisplayImageOptions options;
+	private final ImageLoader imageLoader = ImageLoader.getInstance();
 
 	public BengItemAdapter(Context context, List<BengModelItem> items) {
 		mInflater = LayoutInflater.from(context);
 		mcontext = context;
 		mitems = items;
-		imgLoader = new ImageLoader(mcontext);
+		options = new DisplayImageOptions.Builder()
+				.showImageOnLoading(R.drawable.ic_stub)
+				.showImageForEmptyUri(R.drawable.ic_empty)
+				.showImageOnFail(R.drawable.ic_error).cacheInMemory(true)
+				.cacheOnDisc(true).considerExifParams(true)
+				.displayer(new RoundedBitmapDisplayer(20)).imageScaleType(ImageScaleType.EXACTLY).build();
+
 	}
 
 	@Override
@@ -66,7 +83,7 @@ public class BengItemAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-
+		imageLoader.init(ImageLoaderConfiguration.createDefault(mcontext));
 		BengItem holder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.bengitemlayout, null);
@@ -84,47 +101,52 @@ public class BengItemAdapter extends BaseAdapter {
 			holder.setViewResult((Button) convertView
 					.findViewById(R.id.BtnViewResult));
 
-			holder.getImage().setScaleType(ScaleType.FIT_CENTER);
+			holder.getImage().setScaleType(ScaleType.FIT_XY);
 			convertView.setTag(holder);
 		} else {
 			holder = (BengItem) convertView.getTag();
 		}
 		Date date = new Date();
 		DateFormat fm = DateFormat.getDateTimeInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
-		//TimeZone timezone = TimeZone.getTimeZone("GMT");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
+		// TimeZone timezone = TimeZone.getTimeZone("GMT");
 
-		//dateFormat.setTimeZone(timezone);
+		// dateFormat.setTimeZone(timezone);
 		Date convertedDate = null;
-        ParsePosition parseErr=new ParsePosition(0);
-        convertedDate = dateFormat.parse(mitems.get(position).getDeadline().trim(),parseErr);
-        dateFormat.applyPattern("HH:mm:ss dd-MM-yyyy");
-        if(parseErr.getErrorIndex()<0)
-            holder.getDeadline().setText(dateFormat.format(convertedDate));
+		ParsePosition parseErr = new ParsePosition(0);
+		convertedDate = dateFormat.parse(mitems.get(position).getDeadline()
+				.trim(), parseErr);
+		dateFormat.applyPattern("HH:mm:ss dd-MM-yyyy");
+		if (parseErr.getErrorIndex() < 0)
+			holder.getDeadline().setText(dateFormat.format(convertedDate));
 
 		// ((TextView)
 		// convertView.findViewById(R.id.date)).setTypeface(font.mMedium);
 		holder.getName().setText(mitems.get(position).getDescription());
 		// holder.getName().setTypeface(font.getInstance().mMedium);
-		final int  pos = position;
+		final int pos = position;
 		holder.getImage().setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
-				
-				Intent intent = new Intent(mcontext,ViewImages.class) ;
+
+				Intent intent = new Intent(mcontext, ViewImages.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.putExtra(PHOTOS, mitems.get(pos).getPhotos());
 				mcontext.startActivity(intent);
 				// startActivity(intent);
 			}
 		});
-		imgLoader.DisplayImage(mitems.get(position).getPhotos()[0], holder.getImage());
+		
+		imageLoader.displayImage(this.mitems.get(position).getPhotos()[0],
+				holder.getImage(), options, animateFirstListener);
+		// imgLoader.DisplayImage(mitems.get(position).getPhotos()[0],
+		// holder.getImage());
 		// holder.getDeadline().setTypeface(font.mBold);
-		//holder.getImage().setImageResource(R.drawable.koala);
+		// holder.getImage().setImageResource(R.drawable.koala);
 
-		if (mitems.get(position).getBengtype() ==1) {
+		if (mitems.get(position).getBengtype() == 1) {
 			holder.getBeng().setVisibility(View.VISIBLE);
 			// holder.getBeng().setTypeface(font.mBold);
 			holder.getDeadline().setTextColor(Color.parseColor("#e4511d"));
@@ -142,7 +164,6 @@ public class BengItemAdapter extends BaseAdapter {
 
 					// set values for custom dialog components - text, image and
 					// button
-					
 
 					dialog.show();
 				}
@@ -155,5 +176,25 @@ public class BengItemAdapter extends BaseAdapter {
 			holder.getDeadline().setTextColor(Color.parseColor("#000000"));
 		}
 		return convertView;
+	}
+
+	private static class AnimateFirstDisplayListener extends
+			SimpleImageLoadingListener {
+
+		static final List<String> displayedImages = Collections
+				.synchronizedList(new LinkedList<String>());
+
+		@Override
+		public void onLoadingComplete(String imageUri, View view,
+				Bitmap loadedImage) {
+			if (loadedImage != null) {
+				ImageView imageView = (ImageView) view;
+				boolean firstDisplay = !displayedImages.contains(imageUri);
+				if (firstDisplay) {
+					FadeInBitmapDisplayer.animate(imageView, 500);
+					displayedImages.add(imageUri);
+				}
+			}
+		}
 	}
 }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.webeng.LoginActivity;
 import com.example.webeng.WebengApplication;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by sangcu on 2/15/14.
@@ -23,7 +24,7 @@ public class BaseActivity extends Activity {
     private static String tag=null;
     //To turn/off progress dialogs
     private ProgressDialog pd = null;
-
+  
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
