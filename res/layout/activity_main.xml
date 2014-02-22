@@ -17,7 +17,7 @@
     android:textAlignment="center"
     tools:context=".MainActivity" >
 
-    <Widget.PullAndLoadListView
+    <widget.PullAndLoadListView
         android:id="@+id/ListBeng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,14 +31,31 @@
         android:dividerHeight="5sp"
         android:focusableInTouchMode="true">
 
-    </Widget.PullAndLoadListView>
+    </widget.PullAndLoadListView>
 
-    <ProgressBar
-        android:id="@+id/progressGetItem"
-        style="?android:attr/progressBarStyleLarge"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_gravity="center_vertical|center_horizontal|center"
-        android:visibility="invisible" />
+        android:layout_gravity="center">
+
+        <ProgressBar
+            android:id="@+id/progressGetItem"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal|center"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/imgTapToLoad"
+            android:layout_gravity="center"
+            android:src="@drawable/tap_to_try"
+            android:visibility="gone"
+            android:onClick="onReloadClick"
+            android:clickable="true" />
+
+        </LinearLayout>
 
 </LinearLayout>
