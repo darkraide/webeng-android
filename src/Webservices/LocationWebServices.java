@@ -2,12 +2,10 @@ package Webservices;
 
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import models.Location;
+import models.location;
 
 /**
  * Created by sangcu on 2/15/14.
@@ -22,6 +20,6 @@ public class LocationWebServices extends BaseWebServices {
         String jsonData=this.getRequest(this._host+this.Uri);
 
         Gson gson=new Gson();
-        return gson.fromJson(jsonData,new ArrayList<Location>().getClass());
+        return gson.fromJson(jsonData,new ArrayList<location>().getClass());
     }
 }

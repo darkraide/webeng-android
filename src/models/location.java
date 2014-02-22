@@ -1,16 +1,15 @@
 package models;
 
-import com.example.webeng.R;
 import com.google.gson.Gson;
 
 /**
  * Created by sangcu on 2/14/14.
  */
-public class Location {
+public class location {
     private String id;
     private String name;
 
-    public Location(String id,String name){
+    public location(String id, String name){
         this.id=id;
         this.name=name;
     }
@@ -20,9 +19,9 @@ public class Location {
 
         return gson.toJson(this);
     }
-    public static Location fromJson(String json){
-        Location location;
-        location = new Gson().fromJson(json, Location.class);
+    public static location fromJson(String json){
+        location location;
+        location = new Gson().fromJson(json, models.location.class);
         return location;
     }
 }

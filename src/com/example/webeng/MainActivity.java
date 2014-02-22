@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,12 +38,15 @@ import models.BengModelItem;
 
 public class MainActivity extends BaseActivity implements OnItemClickListener {
 
+    private ImageView imgLoading;
     private static List<BengModelItem> items;
     private static Context context;
     private static ProgressBar progressBar;
     FontManager font = FontManager.getInstance();
     BengItemAdapter bengAdapter;
-
+    SharedPreferences sp;
+    CharSequence userid;
+    CharSequence token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,9 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
 
         progressBar = (ProgressBar) findViewById(R.id.progressGetItem);
+
+        imgLoading=(ImageView)findViewById(R.id.imgTapToLoad);
+
         LayoutInflater inflator = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.mymenu, null);
@@ -86,9 +93,9 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
         getListView().setOnItemClickListener(this);
         getListView().setEmptyView(findViewById(R.id.emptyList));
-        SharedPreferences sp = getSharedPreferences();
-        final CharSequence userid = sp.getString("userid", null);
-        final CharSequence token = sp.getString("token", null);
+        sp = getSharedPreferences();
+        userid = sp.getString("userid", null);
+        token = sp.getString("token", null);
 
         if (userid == null || token == null) {
             gotoActivity(LoginActivity.class);
@@ -157,6 +164,13 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
     }
 
+    public void onReloadClick(View view) {
+        imgLoading.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        final BengAsyncTask task = new BengAsyncTask();
+        task.execute(userid.toString(), token.toString());
+    }
+
     private class BengAsyncTask extends
             AsyncTask<String, Long, List<BengModelItem>> {
 
@@ -208,7 +222,13 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 }
                 bengAdapter.notifyDataSetChanged();
             }
-            //progressBar.setVisibility(View.INVISIBLE);
+            if(items.size()==0){
+                progressBar.setVisibility(View.GONE);
+                imgLoading.setVisibility(View.VISIBLE);
+                getListView().setVisibility(View.VISIBLE);
+            }else{
+                imgLoading.setVisibility(View.GONE);
+            }
             //getListView().setVisibility(View.VISIBLE);
             super.onPostExecute(result);
         }
