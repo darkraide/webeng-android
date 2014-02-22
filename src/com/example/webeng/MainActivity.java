@@ -62,9 +62,9 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         View v = inflator.inflate(R.layout.mymenu, null);
 
         final TextView title = ((TextView) v.findViewById(R.id.titleActivity));
-        final ImageButton btn_newbeng = ((ImageButton) v
-                .findViewById(R.id.createbeng));
-        btn_newbeng.setOnClickListener(new OnClickListener() {
+        //final ImageButton btn_newbeng = ((ImageButton) v
+        //        .findViewById(R.id.createbeng));
+        /*btn_newbeng.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -73,13 +73,13 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 startActivity(myIntentA1A2);
 
             }
-        });
+        });*/
         title.setTypeface(font.mMedium);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
-        lp.gravity = Gravity.CENTER;
-        title.setGravity(Gravity.CENTER);
+        lp.gravity = Gravity.LEFT;
+        title.setGravity(Gravity.LEFT);
         title.setMaxEms(10);
         title.setMaxLines(1);
         v.setLayoutParams(lp);

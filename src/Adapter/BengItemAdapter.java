@@ -59,8 +59,8 @@ public class BengItemAdapter extends BaseAdapter {
 		mitems = items;
 		options = new DisplayImageOptions.Builder()
 				
-				.showImageForEmptyUri(R.drawable.ic_empty)
-				.showImageOnFail(R.drawable.ic_error).cacheInMemory(true)
+				.showImageForEmptyUri(R.drawable.no_image)
+				.showImageOnFail(R.drawable.no_image).cacheInMemory(true)
 				.cacheOnDisc(true).considerExifParams(true)
 				.displayer(new RoundedBitmapDisplayer(20))
 				.imageScaleType(ImageScaleType.EXACTLY).build();
@@ -144,7 +144,7 @@ public class BengItemAdapter extends BaseAdapter {
 			}
 		});
 
-		imageLoader.displayImage(this.mitems.get(position).getPhotos()[0],
+		imageLoader.displayImage(this.mitems.get(position).getThump(),
 				holder.getImage(), options, new SimpleImageLoadingListener() {
 					@Override
 					public void onLoadingStarted(String imageUri, View view) {
@@ -189,7 +189,7 @@ public class BengItemAdapter extends BaseAdapter {
 		// holder.getDeadline().setTypeface(font.mBold);
 		// holder.getImage().setImageResource(R.drawable.koala);
 
-		if (mitems.get(position).getBengtype() == 1) {
+		if (!mitems.get(position).getWinner()) {
 			holder.getBeng().setVisibility(View.VISIBLE);
 			// holder.getBeng().setTypeface(font.mBold);
 			holder.getDeadline().setTextColor(Color.parseColor("#e4511d"));
@@ -216,7 +216,7 @@ public class BengItemAdapter extends BaseAdapter {
 			holder.getBeng().setVisibility(View.GONE);
 			// holder.getViewResult().setTypeface(font.mBold);
 			holder.getViewResult().setVisibility(View.VISIBLE);
-			holder.getDeadline().setTextColor(Color.parseColor("#000000"));
+			holder.getDeadline().setTextColor(Color.parseColor("#000"));
 		}
 		return convertView;
 	}

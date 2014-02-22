@@ -27,7 +27,7 @@
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:paddingTop="3dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="center" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -107,12 +107,18 @@
 
         <TextView
             android:id="@+id/Namedetail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text=" "
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:text="@string/btnComments"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:clickable="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="20sp"
+            android:textColor="#ff8800"
+            android:textStyle="bold"
+            android:enabled="true" />
 
         <Button
             android:id="@+id/BengButton"
@@ -120,19 +126,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_weight="1"
             android:background="@drawable/beng_button"
             android:text="@string/Benggg"
             android:textAllCaps="true"
             android:textColor="#fff"
             android:textColorHint="#000"
             android:textColorLink="#000"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp" />
+            android:layout_margin="0dp"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/BtnViewResult"

@@ -5,16 +5,17 @@ package models;
 
 public class BengModelItem {
 	public BengModelItem(String updated, String status, String description,
-			String contact, String address, int type, String deadline,
-			String user, String id, String winner, String[] location,
-			String[] photo, String __v) {
+                         String contact, String address, int type, String deadline,
+                         String user, String id, Boolean winner, String[] location,
+                         String[] photo, String thump, String __v) {
 		super();
 		this.updated = updated;
 		this.status = status;
 		this.description = description;
 		this.contact = contact;
 		this.address = address;
-		this.setBengtype(type);
+        this.setThump(thump);
+        this.setBengtype(type);
 		this.deadline = deadline;
 		this.user = user;
 		this.setId(id);
@@ -32,8 +33,9 @@ public class BengModelItem {
 	private String deadline;
 	private String user;
 	private String _id;
-	private String winner;
+	private Boolean winner;
 	private String[] location;
+    private String thump;
 //	private String name;
 	
 	
@@ -141,10 +143,10 @@ public class BengModelItem {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getWinner() {
+	public Boolean getWinner() {
 		return winner;
 	}
-	public void setWinner(String winner) {
+	public void setWinner(Boolean winner) {
 		this.winner = winner;
 	}
 	public String getContact() {
@@ -196,4 +198,11 @@ public class BengModelItem {
 		this.photos = photos;
 	}
 
+    public String getThump() {
+        return thump;
+    }
+
+    public void setThump(String thump) {
+        this.thump = thump;
+    }
 }

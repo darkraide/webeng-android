@@ -66,7 +66,7 @@ public class LoginActivity extends BaseActivity{
         CharSequence user=userid.getText();
         CharSequence pass=password.getText();
         String host=getResources().getString(R.string.serverhost);
-        turnOnProgressDialog(getResources().getString( R.string.logging),getResources().getString(R.string.loggingToServer));
+        turnOnProgressDialog(getResources().getString( R.string.login),getResources().getString(R.string.loggingToServer));
         new LoginAsyncTask().execute(host,user.toString(),pass.toString());
 
     }

@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/WhereDoestheplacesusethisbeng"
+        android:hint="@string/Wheredoesyouwillgetthisbeng"
         android:paddingBottom="10dp"
         android:paddingTop="20dp"
         android:textSize="14sp" />
@@ -86,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/WheredoesthewinnergettheGoods"
+        android:hint="@string/Whattheplacesthisbengapplyto"
         android:paddingBottom="10dp"
         android:paddingTop="20dp"
         android:textSize="14sp" />
@@ -96,7 +96,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/Howcanthewinnercontactoyou"
+        android:hint="@string/Howtocontacttogengger"
         android:paddingBottom="10dp"
         android:paddingTop="20dp"
         android:textSize="14sp" />
