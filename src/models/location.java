@@ -9,17 +9,19 @@ public class location {
     private String id;
     private String name;
 
-    public location(String id, String name){
-        this.id=id;
-        this.name=name;
+    public location(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
-    public String toJSON(){
+
+    public String toJSON() {
         Gson gson;
         gson = new Gson();
 
         return gson.toJson(this);
     }
-    public static location fromJson(String json){
+
+    public static location fromJson(String json) {
         location location;
         location = new Gson().fromJson(json, models.location.class);
         return location;

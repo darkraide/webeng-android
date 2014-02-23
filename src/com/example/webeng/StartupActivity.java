@@ -9,18 +9,20 @@ import BaseClasses.BaseActivity;
 /**
  * Created by sangcu on 2/15/14.
  */
-public class StartupActivity extends BaseActivity{
+public class StartupActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
+        setScreenName(getResources().getString(R.string.appstartup_screen));
+
         super.onCreate(savedInstanceState);
         //this.getActionBar().hide();
 
-        SharedPreferences sp=getSharedPreferences();
+        SharedPreferences sp = getSharedPreferences();
 
-        String userid=sp.getString("userid",null);
+        String userid = sp.getString("userid", null);
 
-        if(userid==null){
+        if (userid == null) {
             gotoActivity(LoginActivity.class);
-        }else
+        } else
             gotoActivity(MainActivity.class);
 
 

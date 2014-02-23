@@ -15,7 +15,7 @@
     android:paddingRight="5dp"
     android:paddingTop="0dp"
     android:textAlignment="center"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
     <widget.PullAndLoadListView
         android:id="@+id/ListBeng"
@@ -56,6 +56,6 @@
             android:onClick="onReloadClick"
             android:clickable="true" />
 
-        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

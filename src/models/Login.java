@@ -5,9 +5,10 @@ package models;
  */
 public class Login {
     private String userid;
-    private  String token;
+    private String token;
     private String message;
-    public Login(String userid,String token,String message){
+
+    public Login(String userid, String token, String message) {
         this.setUserId(userid);
         this.setToken(token);
         this.setMessage(message);

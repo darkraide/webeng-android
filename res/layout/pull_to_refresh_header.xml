@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2011 Johan Nilsson <http://markupartist.com>
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2011 Johan Nilsson <http://markupartist.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,8 +19,8 @@ limitations under the License.
     android:paddingTop="10dip"
     android:paddingBottom="15dip"
     android:gravity="center"
-        android:id="@+id/pull_to_refresh_header"
-    >
+    android:id="@+id/pull_to_refresh_header">
+
     <ProgressBar
         android:id="@+id/pull_to_refresh_progress"
         android:indeterminate="true"
@@ -32,8 +31,8 @@ limitations under the License.
         android:layout_marginTop="10dip"
         android:visibility="gone"
         android:layout_centerVertical="true"
-        style="?android:attr/progressBarStyleSmall"
-        />
+        style="?android:attr/progressBarStyleSmall" />
+
     <ImageView
         android:id="@+id/pull_to_refresh_image"
         android:layout_width="wrap_content"
@@ -43,8 +42,8 @@ limitations under the License.
         android:visibility="gone"
         android:layout_gravity="center"
         android:gravity="center"
-        android:src="@drawable/ic_pulltorefresh_arrow"
-        />
+        android:src="@drawable/ic_pulltorefresh_arrow" />
+
     <TextView
         android:id="@+id/pull_to_refresh_text"
         android:text="@string/pull_to_refresh_tap_label"
@@ -54,8 +53,8 @@ limitations under the License.
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        />
+        android:gravity="center" />
+
     <TextView
         android:id="@+id/pull_to_refresh_updated_at"
         android:layout_below="@+id/pull_to_refresh_text"
@@ -64,7 +63,6 @@ limitations under the License.
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        />
+        android:gravity="center" />
 </RelativeLayout>
 

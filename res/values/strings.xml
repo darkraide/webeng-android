@@ -3,22 +3,22 @@
 
     <string name="webeeng">We benggg</string>
     <string name="serverhost">http://webenggg.herokuapp.com</string>
-    <string name="Userid">UEmail</string>
+    <string name="Userid">Email</string>
     <string name="PassWord">Mật khẩu</string>
-      <string name="login">Đăng nhập</string>
+    <string name="login">Đăng nhập</string>
     <string name="SignUp">Chưa có tài khoản? Tap vào để tạo.</string>
     <string name="app_name">Webeng</string>
     <string name="action_settings">Cấu hình</string>
     <string name="name">Tên</string>
-    <string name="title">We Beng</string>
+    <string name="title">Mới nhất</string>
     <string name="Deadline">Thời hạn : </string>
-    <string name="Benggg">Benggg</string>
+    <string name="Benggg">Tham gia</string>
     <string name="ViewResult">Xem kết quả</string>
     <string name="Wheredoesyouwillgetthisbeng">Nơi nhận quà tặng?</string>
     <string name="Whattheplacesthisbengapplyto">Chọn khu vực áp dụng tặng quà?</string>
     <string name="Howtocontacttogengger">Thông tin liên lạc để nhận quà?</string>
     <string name="Post">Đăng</string>
-    <string name="Comments">Comments :</string>
+    <string name="Comments">Bình luận :</string>
     <string name="Deadlinehint">Thời hạn</string>
     <string name="BengType">Hình thức</string>
     <string name="Description">Mô tả</string>
@@ -40,5 +40,12 @@
     <string name="pull_to_refresh_tap_label">Tải dữ liệu mới...</string>
     <string name="msgNetworkTitle">Lỗi kết nối mạng</string>
     <string name="msgNetworkConnectingError">Kiểm tra tình trạng 3G/Wifi của bạn và thử lại.</string>
-    <string name="btnComments">Comments</string>
+    <string name="btnComments">Bình luận</string>
+    <string name="gaTrackingCode">UA-48329665-1</string>
+    <string name="email">Email</string>
+    <string name="main_screen">Dash Board</string>
+    <string name="login_screen">Login</string>
+    <string name="appstartup_screen">StartUp</string>
+    <string name="viewimage_screen">View Image Screen</string>
+    <string name="beng_menu">Đã Beng</string>
 </resources>

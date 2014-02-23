@@ -9,117 +9,118 @@
     android:layout_marginRight="5dp"
     android:layout_marginTop="5dp"
     android:overScrollMode="always"
-    android:scrollbars="vertical" >
+    android:scrollbars="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-            <EditText
-        android:id="@+id/NameBeng"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/name"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:textSize="14sp" >
-
-        <requestFocus />
-    </EditText>
-
-    <ImageView
-        android:id="@+id/Photo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_launcher" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
+        android:orientation="vertical">
 
         <EditText
-            android:id="@+id/deadline"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:id="@+id/NameBeng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:ems="10"
-            android:gravity="bottom|center_vertical"
-            android:hint="@string/Deadlinehint"
-            android:inputType="date"
+            android:hint="@string/name"
+            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:textSize="14sp">
+
+            <requestFocus />
+        </EditText>
+
+        <ImageView
+            android:id="@+id/Photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <EditText
+                android:id="@+id/deadline"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="bottom|center_vertical"
+                android:hint="@string/Deadlinehint"
+                android:inputType="date"
+                android:paddingTop="10dp"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnlogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Button" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/bengtype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/BengType"
+            android:paddingBottom="10dp"
+            android:paddingTop="20dp"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/bengplace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/Wheredoesyouwillgetthisbeng"
+            android:paddingBottom="10dp"
+            android:paddingTop="20dp"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/placeGetGood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/Whattheplacesthisbengapplyto"
+            android:paddingBottom="10dp"
+            android:paddingTop="20dp"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/Howtocontacttogengger"
+            android:paddingBottom="10dp"
+            android:paddingTop="20dp"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/Description"
+            android:paddingBottom="10dp"
+            android:paddingTop="20dp"
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/btnlogin"
-            android:layout_width="wrap_content"
+            android:id="@+id/submit"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/bengtype"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/BengType"
-        android:paddingBottom="10dp"
-        android:paddingTop="20dp"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/bengplace"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/Wheredoesyouwillgetthisbeng"
-        android:paddingBottom="10dp"
-        android:paddingTop="20dp"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/placeGetGood"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/Whattheplacesthisbengapplyto"
-        android:paddingBottom="10dp"
-        android:paddingTop="20dp"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/contact"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/Howtocontacttogengger"
-        android:paddingBottom="10dp"
-        android:paddingTop="20dp"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/Description"
-        android:paddingBottom="10dp"
-        android:paddingTop="20dp"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/beng_button"
-        android:text="@string/SaveBenggg"
-        android:textColor="#fff" />
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/beng_button"
+            android:text="@string/SaveBenggg"
+            android:textColor="#fff" />
     </LinearLayout>
 
 </ScrollView>
