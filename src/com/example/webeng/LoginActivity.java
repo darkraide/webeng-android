@@ -46,14 +46,14 @@ public class LoginActivity extends BaseActivity {
         webengg.setTypeface(mfont.mUntralight);
 
         userid = (TextView) findViewById(R.id.userid);
-        userid.setTypeface(mfont.mUntralight);
+        //userid.setTypeface(mfont.mUntralight);
         password = (TextView) findViewById(R.id.password);
-        password.setTypeface(mfont.mUntralight);
+        //password.setTypeface(mfont.mUntralight);
 
         newUser = (TextView) findViewById(R.id.SignUp);
-        newUser.setTypeface(mfont.mUntralight);
+        //newUser.setTypeface(mfont.mUntralight);
         btnLogin = (Button) findViewById(R.id.btnlogin);
-        btnLogin.setTypeface(mfont.mUntralight);
+        //btnLogin.setTypeface(mfont.mUntralight);
 
     }
 
