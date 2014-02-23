@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
             }
         });*/
-        title.setTypeface(font.mMedium);
+        //title.setTypeface(font.mMedium);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
@@ -216,7 +216,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 } else
                     items = result;
                 if (bengAdapter == null) {
-                    bengAdapter = new BengItemAdapter(context,
+                    bengAdapter = new BengItemAdapter(MainActivity.this,
                             items);
                     getListView().setAdapter(bengAdapter);
                 }

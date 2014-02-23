@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import com.example.webeng.BengSubmitDiagActivity;
+import com.example.webeng.MainActivity;
 import com.example.webeng.R;
 import com.example.webeng.ViewImages;
 
@@ -214,21 +216,9 @@ public class BengItemAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
                     // Create custom dialog object
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(mcontext);
+                    Intent i = new Intent(mcontext, BengSubmitDiagActivity.class);
 
-                    alertDialog.setTitle("Delete this item?");
-                    alertDialog.setMessage("Are you sure you want to delete this?");
-                    //alertDialog.setIcon(R.drawable.icon);
-
-                    alertDialog.setPositiveButton(
-                            "Delete",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Do the stuff..
-                                }
-                            }
-                    );
-                alertDialog.show();
+                    mcontext.startActivity(i);
             }
         });
             holder.getViewResult().setVisibility(View.GONE);

@@ -17,6 +17,10 @@
     <string name="Wheredoesyouwillgetthisbeng">Nơi nhận quà tặng?</string>
     <string name="Whattheplacesthisbengapplyto">Chọn khu vực áp dụng tặng quà?</string>
     <string name="Howtocontacttogengger">Thông tin liên lạc để nhận quà?</string>
+    <string name="labelBengDescription">Thông tin quà </string>
+    <string name="labelPlaceGetBeng">Nơi nhận quà tặng</string>
+    <string name="labelLocationToApply">Khu vực áp dụng</string>
+    <string name="labelHowContact">Cách thức liên hệ nhận hàng</string>
     <string name="Post">Đăng</string>
     <string name="Comments">Bình luận :</string>
     <string name="Deadlinehint">Thời hạn</string>
@@ -48,4 +52,7 @@
     <string name="appstartup_screen">StartUp</string>
     <string name="viewimage_screen">View Image Screen</string>
     <string name="beng_menu">Đã Beng</string>
+    <string name="beng_submit_title">Xác nhận!</string>
+    <string name="beng_submit_done">Hoàn tất</string>
+    <string name="beng_discard_title">Quay lại</string>
 </resources>

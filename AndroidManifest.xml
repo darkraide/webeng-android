@@ -21,7 +21,6 @@
             android:name="com.example.webeng.MainActivity"
             android:theme="@style/MyTheme"
             android:label="@string/app_name">
-
         </activity>
         <activity
             android:name="com.example.webeng.CreateBeng"
@@ -31,7 +30,6 @@
         <activity
             android:name="com.example.webeng.LoginActivity"
             android:label="@string/login">
-
         </activity>
         <activity
             android:name="com.example.webeng.ViewImages"
@@ -42,6 +40,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
+        </activity>
+        <activity android:name=".BengSubmitDiagActivity" android:label="@string/beng_submit_title"  android:theme="@android:style/Theme.Holo.Light.Dialog">
         </activity>
         <activity android:name=".StartupActivity">
             <intent-filter>
