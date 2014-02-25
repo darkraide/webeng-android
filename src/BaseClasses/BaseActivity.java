@@ -47,7 +47,7 @@ public class BaseActivity extends Activity {
         HashMap<String, String> hitParameters = new HashMap<String, String>();
         hitParameters.put(Fields.SCREEN_NAME, getScreenName());
 
-        //tracker.send(hitParameters);
+        tracker.send(hitParameters);
     }
 
     @Override

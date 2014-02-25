@@ -55,4 +55,9 @@
     <string name="beng_submit_title">Xác nhận!</string>
     <string name="beng_submit_done">Hoàn tất</string>
     <string name="beng_discard_title">Quay lại</string>
+    <string name="google_play_services_version">4.0.30</string>
+    <string name="gcm_title">Quà tặng mới!</string>
+    <string name="msgErrorTitle">Lỗi</string>
+    <string name="msgUserPassInvalid">Email và mật khẩu không hợp lệ.</string>
+
 </resources>
