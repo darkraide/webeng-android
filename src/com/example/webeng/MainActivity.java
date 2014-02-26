@@ -3,6 +3,7 @@ package com.example.webeng;
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -122,8 +123,24 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                     }
                 });
         getListView().setDrawSelectorOnTop(true);
+
+        checkIntentData();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        checkIntentData();
+
+    }
+    private void checkIntentData(){
+        Intent intent= getIntent();
+        Integer bengid=intent.getIntExtra("a",0);
+        if(bengid>0){
+            gotoActivity(BengSubmitDiagActivity.class);
+        }
+        Log.d("GCM",bengid.toString());
+    }
     private PullAndLoadListView getListView() {
         return (PullAndLoadListView) findViewById(R.id.ListBeng);
     }

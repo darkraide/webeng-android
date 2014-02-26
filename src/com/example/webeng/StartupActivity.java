@@ -52,11 +52,8 @@ public class StartupActivity extends BaseActivity {
         setScreenName(getResources().getString(R.string.appstartup_screen));
 
         super.onCreate(savedInstanceState);
-        //this.getActionBar().hide();
         context=this;
-        SharedPreferences sp = getSharedPreferences();
 
-        String userid = sp.getString("userid", null);
         // Check device for Play Services APK.
         if (checkPlayServices()) {
             // If this check succeeds, proceed with normal processing.
@@ -71,6 +68,9 @@ public class StartupActivity extends BaseActivity {
                     registerInBackground();
                 }
 
+            SharedPreferences sp = getSharedPreferences();
+
+            String userid = sp.getString("userid", null);
 
             if (userid == null) {
                 gotoActivity(LoginActivity.class);
