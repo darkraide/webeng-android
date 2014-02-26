@@ -1,10 +1,12 @@
 package models;
 
 
+import android.location.Location;
+
 public class BengModelItem {
     public BengModelItem(String updated, String status, String description,
                          String contact, String address, int type, String deadline,
-                         String user, String id, Boolean winner, String[] location,
+                         String user, String id, Boolean winner,location[] location,
                          String[] photo, String thump, String __v) {
         super();
         this.updated = updated;
@@ -18,11 +20,11 @@ public class BengModelItem {
         this.user = user;
         this.setId(id);
         this.winner = winner;
-        this.location = location;
+        this.locations = location;
         this.setPhotos(photo);
         this.__v = __v;
     }
-
+    private location[] locations;
     private String updated;
     private String status;
     private String description;
@@ -33,7 +35,6 @@ public class BengModelItem {
     private String user;
     private String _id;
     private Boolean winner;
-    private String[] location;
     private String thump;
 //	private String name;
 
@@ -121,12 +122,12 @@ public class BengModelItem {
         this.__v = __v;
     }
 
-    public String[] getLocation() {
-        return location;
+    public location[] getLocation() {
+        return locations;
     }
 
-    public void setLocation(String[] location) {
-        this.location = location;
+    public void setLocation(location[] location) {
+        this.locations = location;
     }
 
     public String getAddress() {

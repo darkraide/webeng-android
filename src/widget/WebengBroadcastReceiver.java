@@ -57,29 +57,30 @@ public class WebengBroadcastReceiver extends BroadcastReceiver {
              */
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
 
-                sendNotification("Received: " + extras.toString());
                 Log.i(TAG, "Received: " + extras.toString());
+                sendNotification(extras);
+
             }
         }
 
     }
-    private void sendNotification(String msg){
+    private void sendNotification(Bundle extras){
         if (Build.VERSION.SDK_INT >= 11) {
-            Notification(msg);
+            Notification(extras);
         } else {
             NotificationManager manager = (NotificationManager) mContext
                     .getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification notification = prepareNotification(msg);
+            Notification notification = prepareNotification(extras);
             manager.notify(NOTIFICATION_ID, notification);
         }
     }
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
-    private Notification prepareNotification(String msg) {
+    private Notification prepareNotification(Bundle extras) {
         long when = System.currentTimeMillis();
 
-        Notification notification = new Notification(R.drawable.gift, msg,
+        Notification notification = new Notification(R.drawable.gift, mContext.getString(R.string.gcm_title),
                 when);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
@@ -88,7 +89,7 @@ public class WebengBroadcastReceiver extends BroadcastReceiver {
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         // Set a unique data uri for each notification to make sure the activity
         // gets updated
-        intent.putExtra("a", 500);
+        intent.putExtra(WeBengConstant.BENGID_KEY, extras.get(WeBengConstant.BENGID_KEY).toString());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0,
@@ -97,13 +98,12 @@ public class WebengBroadcastReceiver extends BroadcastReceiver {
 
         return notification;
     }
-    public void Notification(String msg) {
+    public void Notification(Bundle extras) {
         Intent notificationIntent = new Intent(mContext, MainActivity.class);
         notificationIntent.setAction(Intent.ACTION_MAIN);
         notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        //notificationIntent.putExtra(ImageWareConstant.GCM_PRODUCT_ID,
-        //        Integer.parseInt(productId));
-        notificationIntent.putExtra(WeBengConstant.BENGID_KEY, 500);
+
+        notificationIntent.putExtra(WeBengConstant.BENGID_KEY, extras.get(WeBengConstant.BENGID_KEY).toString());
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
                 notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -121,9 +121,9 @@ public class WebengBroadcastReceiver extends BroadcastReceiver {
                     .setWhen(System.currentTimeMillis())
                     .setAutoCancel(true)
                     .setContentTitle(
-                            res.getString(R.string.app_name).toString()
-                                    .toUpperCase()).setContentText(mContext.getString(R.string.gcm_title))
-                    .setStyle(new Notification.BigTextStyle().bigText(msg));
+                            res.getString(R.string.gcm_title).toString()
+                                    .toUpperCase()).setContentText(mContext.getString(R.string.push_content_msg))
+                    .setStyle(new Notification.BigTextStyle().bigText(mContext.getString(R.string.push_content_msg)));
         } else {
             builder.setContentIntent(contentIntent)
                     .setSmallIcon(R.drawable.gift)
@@ -133,8 +133,8 @@ public class WebengBroadcastReceiver extends BroadcastReceiver {
                     .setWhen(System.currentTimeMillis())
                     .setAutoCancel(true)
                     .setContentTitle(
-                            res.getString(R.string.app_name).toString()
-                                    .toUpperCase()).setContentText(msg);
+                            res.getString(R.string.gcm_title).toString()
+                                    .toUpperCase()).setContentText(mContext.getString(R.string.push_content_msg));
         }
 
         Notification n = builder.build();

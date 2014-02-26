@@ -43,9 +43,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     private static ProgressBar progressBar;
     FontManager font = FontManager.getInstance();
     BengItemAdapter bengAdapter;
-    SharedPreferences sp;
-    CharSequence userid;
-    CharSequence token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setScreenName(getResources().getString(R.string.main_screen));
@@ -61,19 +59,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         View v = inflator.inflate(R.layout.action_bar_menu, null);
 
         final TextView title = ((TextView) v.findViewById(R.id.titleActivity));
-        //final ImageButton btn_newbeng = ((ImageButton) v
-        //        .findViewById(R.id.createbeng));
-        /*btn_newbeng.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Intent myIntentA1A2 = new Intent(MainActivity.this,
-                        CreateBeng.class);
-                startActivity(myIntentA1A2);
-
-            }
-        });*/
-        //title.setTypeface(font.mMedium);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
@@ -92,9 +78,6 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
         getListView().setOnItemClickListener(this);
         getListView().setEmptyView(findViewById(R.id.emptyList));
-        sp = getSharedPreferences();
-        userid = sp.getString("userid", null);
-        token = sp.getString("token", null);
 
         if (userid == null || token == null) {
             gotoActivity(LoginActivity.class);
@@ -137,11 +120,10 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     }
     private void checkIntentData(){
         Intent intent= getIntent();
-        Integer bengid=intent.getIntExtra(WeBengConstant.BENGID_KEY, 0);
-        if(bengid>0){
+        String bengid=intent.getStringExtra(WeBengConstant.BENGID_KEY);
+        if(bengid!=null){
             gotoActivity(BengSubmitDiagActivity.class);
         }
-        Log.d("GCM",bengid.toString());
     }
     private PullAndLoadListView getListView() {
         return (PullAndLoadListView) findViewById(R.id.ListBeng);
@@ -215,7 +197,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 BengWebServices bws = new BengWebServices(getResources().getString(R.string.serverhost));
                 result = bws.getBengs(index, arg0[0], arg0[1]);
                 if (result == null) {
-                    if (handleHttpCode(bws.getErrorCode())) {
+                    if (canHandleHttpCode(bws.getErrorCode())) {
                         result = bws.getBengs(index, arg0[0], arg0[1]);
                     }
                 }

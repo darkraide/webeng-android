@@ -59,5 +59,6 @@
     <string name="gcm_title">Quà tặng mới!</string>
     <string name="msgErrorTitle">Lỗi</string>
     <string name="msgUserPassInvalid">Email và mật khẩu không hợp lệ.</string>
+    <string name="push_content_msg">Có quà tặng mới phù hợp với khu vực của bạn</string>
 
 </resources>

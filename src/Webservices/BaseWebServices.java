@@ -41,6 +41,7 @@ public class BaseWebServices {
     }
 
     public String getRequest(String uri, String userId, String token) {
+        resetErrorCode();
         // Creating HTTP client
         HttpClient httpClient = new DefaultHttpClient();
         // Creating HTTP Post
@@ -93,6 +94,7 @@ public class BaseWebServices {
     }
 
     public String postRequest(String uri, String jsonBody, List<NameValuePair> body, String userId, String token) {
+        resetErrorCode();
         // Creating HTTP client
         HttpClient httpClient = new DefaultHttpClient();
         // Creating HTTP Post
@@ -160,5 +162,8 @@ public class BaseWebServices {
 
     public Integer getErrorCode() {
         return errorCode;
+    }
+    public void resetErrorCode() {
+        errorCode=0;
     }
 }

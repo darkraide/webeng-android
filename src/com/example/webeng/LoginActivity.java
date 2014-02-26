@@ -73,11 +73,11 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    private class LoginAsyncTask extends AsyncTask<String, Boolean, Boolean> {
+    private class LoginAsyncTask extends AsyncTask<String, Boolean, Integer> {
 
 
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected Integer doInBackground(String... strings) {
             LoginWebServices loginServices = new LoginWebServices(strings[0]);
 
             Login logged = loginServices.Login(strings[1], strings[2]);
@@ -90,18 +90,20 @@ public class LoginActivity extends BaseActivity {
                 gotoActivity(MainActivity.class);
 
                 finish();
-                return true;
+                return 200;
             } else {
-                return false;
+                return loginServices.getErrorCode();
             }
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
+        protected void onPostExecute(Integer result) {
             turnOffProgressDialog();
-            if (!result)
-                alert(getResources().getString(R.string.msgNetworkTitle), getResources().getString(R.string.msgNetworkConnectingError));
-
+            if (canHandleHttpCode(result))
+                if(result==400||result==500)
+                    alert(getString(R.string.msgErrorTitle),getString(R.string.msgUserPassInvalid));
+                else
+                    canHandleHttpCode(0);
         }
     }
 }

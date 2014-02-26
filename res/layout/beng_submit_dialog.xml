@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,68 +7,75 @@
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
     android:paddingTop="10dp">
-    <TextView
-        android:id="@+id/labelBengDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/labelBengDescription"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000"/>
+    <LinearLayout
+        android:id="@+id/layoutForm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/labelBengDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/labelBengDescription"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000"/>
 
-    <TextView
-        android:id="@+id/txtBengDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/txtBengDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
-    <TextView
-        android:id="@+id/labelLocationToApply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/labelLocationToApply"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000" />
+        <TextView
+            android:id="@+id/labelLocationToApply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/labelLocationToApply"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000" />
 
-    <TextView
-        android:id="@+id/txtLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    <TextView
-        android:id="@+id/labelPlaceGetBeng"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/labelPlaceGetBeng"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000" />
+        <TextView
+            android:id="@+id/txtLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/labelPlaceGetBeng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/labelPlaceGetBeng"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000" />
 
-    <TextView
-        android:id="@+id/txtPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    <TextView
-        android:id="@+id/labelContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/labelHowContact"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000" />
+        <TextView
+            android:id="@+id/txtPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/labelContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/labelHowContact"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000" />
 
-    <TextView
-        android:id="@+id/txtHowContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:id="@+id/txtHowContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -100,7 +108,20 @@
             android:layout_margin="10dp"
             android:onClick="onDiscard"
             android:layout_weight="1" />
-        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layoutLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center"
+            android:mirrorForRtl="true" />
+    </LinearLayout>
 
 </LinearLayout>

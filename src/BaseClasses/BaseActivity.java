@@ -33,10 +33,16 @@ public class BaseActivity extends Activity {
     private ProgressDialog pd = null;
     private String screenName=null;
     private Tracker tracker;
+    protected SharedPreferences sp;
+    protected CharSequence userid;
+    protected CharSequence token;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         tracker = GoogleAnalytics.getInstance(this).getTracker(getResources().getString(R.string.ga_trackingId));
+        sp = getSharedPreferences();
+        userid = sp.getString("userid", null);
+        token = sp.getString("token", null);
 
 
     }
@@ -66,6 +72,8 @@ public class BaseActivity extends Activity {
     //we often need to transfer to other activities
     public void gotoActivity(Class activityClassReference) {
         Intent i = new Intent(this, activityClassReference);
+        if(this.getIntent()!=null&&this.getIntent().getExtras()!=null)
+            i.putExtras(this.getIntent().getExtras());
         startActivity(i);
     }
 
@@ -100,7 +108,7 @@ public class BaseActivity extends Activity {
         Log.d(tag, message);
     }
 
-    public Boolean handleHttpCode(Integer code) {
+    public Boolean canHandleHttpCode(Integer code) {
         if (code == 401) {
             SharedPreferences sp = getSharedPreferences();
             SharedPreferences.Editor spe = sp.edit();
@@ -109,6 +117,9 @@ public class BaseActivity extends Activity {
             spe.putString("token", null);
             gotoActivity(LoginActivity.class);
             finish();
+            return false;
+        }else if(code==0){
+            alert(getResources().getString(R.string.msgNetworkTitle), getResources().getString(R.string.msgNetworkConnectingError));
             return false;
         }
         return true;
