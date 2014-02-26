@@ -17,7 +17,7 @@
     <string name="Wheredoesyouwillgetthisbeng">Nơi nhận quà tặng?</string>
     <string name="Whattheplacesthisbengapplyto">Chọn khu vực áp dụng tặng quà?</string>
     <string name="Howtocontacttogengger">Thông tin liên lạc để nhận quà?</string>
-    <string name="labelBengDescription">Thông tin quà </string>
+    <string name="labelBengDescription">Quà tặng</string>
     <string name="labelPlaceGetBeng">Nơi nhận quà tặng</string>
     <string name="labelLocationToApply">Khu vực áp dụng</string>
     <string name="labelHowContact">Cách thức liên hệ nhận hàng</string>
@@ -38,7 +38,7 @@
     <string name="YourLocations">Chọn khu vực</string>
     <string name="btnDone">Hoàn thành</string>
     <string name="loggingToServer">Xác nhận tài khoản...</string>
-    <string name="pull_to_refresh_pull_label">Kéo để tải...</string>
+    <string name="pull_to_refresh_pull_label">Kéo xuống...</string>
     <string name="pull_to_refresh_release_label">Thả để tải dữ liệu...</string>
     <string name="pull_to_refresh_refreshing_label">Đang tải...</string>
     <string name="pull_to_refresh_tap_label">Tải dữ liệu mới...</string>

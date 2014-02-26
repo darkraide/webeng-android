@@ -20,11 +20,11 @@ public class BengModelItem {
         this.user = user;
         this.setId(id);
         this.winner = winner;
-        this.locations = location;
+        this.location = location;
         this.setPhotos(photo);
         this.__v = __v;
     }
-    private location[] locations;
+    private location[] location;
     private String updated;
     private String status;
     private String description;
@@ -123,11 +123,11 @@ public class BengModelItem {
     }
 
     public location[] getLocation() {
-        return locations;
+        return location;
     }
 
     public void setLocation(location[] location) {
-        this.locations = location;
+        this.location = location;
     }
 
     public String getAddress() {

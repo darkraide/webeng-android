@@ -6,11 +6,14 @@ import com.google.gson.Gson;
  * Created by sangcu on 2/14/14.
  */
 public class location {
-    private String id;
+    private String _id;
     private String name;
+    private Integer key;
+    private Integer __v;
+    private String describle;
 
-    public location(String id, String name) {
-        this.id = id;
+    public location(String _id, String name) {
+        this._id = _id;
         this.name = name;
     }
 
@@ -36,10 +39,34 @@ public class location {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String _id) {
+        this._id = _id;
+    }
+
+    public Integer getKey() {
+        return key;
+    }
+
+    public void setKey(Integer key) {
+        this.key = key;
+    }
+
+    public Integer get__v() {
+        return __v;
+    }
+
+    public void set__v(Integer __v) {
+        this.__v = __v;
+    }
+
+    public String getDescrible() {
+        return describle;
+    }
+
+    public void setDescrible(String describle) {
+        this.describle = describle;
     }
 }
