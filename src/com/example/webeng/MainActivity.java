@@ -24,6 +24,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.WeBengConstant;
 import widget.PullAndLoadListView;
 import widget.PullToRefreshListView;
 
@@ -130,12 +131,13 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     @Override
     protected void onNewIntent(Intent intent){
         super.onNewIntent(intent);
+        setIntent(intent);
         checkIntentData();
 
     }
     private void checkIntentData(){
         Intent intent= getIntent();
-        Integer bengid=intent.getIntExtra("a",0);
+        Integer bengid=intent.getIntExtra(WeBengConstant.BENGID_KEY, 0);
         if(bengid>0){
             gotoActivity(BengSubmitDiagActivity.class);
         }

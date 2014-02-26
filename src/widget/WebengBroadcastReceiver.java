@@ -26,6 +26,8 @@ import com.example.webeng.R;
 import com.example.webeng.StartupActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import models.WeBengConstant;
+
 /**
  * Created by sangcu on 2/24/14.
  */
@@ -101,7 +103,7 @@ public class WebengBroadcastReceiver extends BroadcastReceiver {
         notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         //notificationIntent.putExtra(ImageWareConstant.GCM_PRODUCT_ID,
         //        Integer.parseInt(productId));
-        notificationIntent.putExtra("a", 500);
+        notificationIntent.putExtra(WeBengConstant.BENGID_KEY, 500);
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
                 notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
