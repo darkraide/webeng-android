@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import BaseClasses.BaseActivity;
+import Webservices.RegisterDeviceWebServices;
+import models.RegisterDeviceModel;
 
 /**
  * Created by sangcu on 2/15/14.
@@ -172,14 +175,15 @@ public class StartupActivity extends BaseActivity {
                     // so it can use GCM/HTTP or CCS to send messages to your app.
                     // The request to your server should be authenticated if your app
                     // is using accounts.
-                    sendRegistrationIdToBackend();
+                    if(sendRegistrationIdToBackend(regid)){
 
-                    // For this demo: we don't need to send it because the device
-                    // will send upstream messages to a server that echo back the
-                    // message using the 'from' address in the message.
+                        // For this demo: we don't need to send it because the device
+                        // will send upstream messages to a server that echo back the
+                        // message using the 'from' address in the message.
 
-                    // Persist the regID - no need to register again.
-                    storeRegistrationId(context, regid);
+                        // Persist the regID - no need to register again.
+                        storeRegistrationId(context, regid);
+                    }
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
                     // If there is an error, don't just keep trying to register.
@@ -197,8 +201,21 @@ public class StartupActivity extends BaseActivity {
      * device sends upstream messages to a server that echoes back the message
      * using the 'from' address in the message.
      */
-    private void sendRegistrationIdToBackend() {
-        // Your implementation here.
+    private Boolean sendRegistrationIdToBackend(String regid) {
+        if(userid==null)
+            return false;
+
+        RegisterDeviceModel model=new RegisterDeviceModel();
+        model.setRegisterId(regid);
+        model.setUserid(userid.toString());
+        model.setType(1);//1 Android, 2 iOS
+        model.setModel(Build.MANUFACTURER + ", " + Build.MODEL);
+
+        Boolean result;
+        RegisterDeviceWebServices service=new RegisterDeviceWebServices(getString(R.string.serverhost));
+
+        result = service.registerDevice(model,userid.toString(),token.toString());
+        return result;
     }
     /**
      * Stores the registration ID and app versionCode in the application's
@@ -216,4 +233,5 @@ public class StartupActivity extends BaseActivity {
         editor.putInt(PROPERTY_APP_VERSION, appVersion);
         editor.commit();
     }
+
 }

@@ -140,6 +140,10 @@ public class BaseWebServices {
         return postRequest(uri, jsonBody, null, null, null);
     }
 
+    public String postRequest(String uri, String jsonBody,String userid,String token) {
+        return postRequest(uri, jsonBody, null, userid, token);
+    }
+
     public String postRequest(String uri, List<NameValuePair> body) {
         return postRequest(uri, null, body, null, null);
     }

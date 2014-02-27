@@ -28,6 +28,7 @@ import BaseClasses.BaseActivity;
 import models.BengModelItem;
 
 import Fonts.FontManager;
+import models.WeBengConstant;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -98,7 +99,7 @@ public class BengItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         imageLoader.init(ImageLoaderConfiguration.createDefault(mcontext));
         final BengItem holder;
         if (convertView == null) {
@@ -217,7 +218,7 @@ public class BengItemAdapter extends BaseAdapter {
                     // TODO Auto-generated method stub
                     // Create custom dialog object
                     Intent i = new Intent(mcontext, BengSubmitDiagActivity.class);
-
+                    i.putExtra(WeBengConstant.BENGID_KEY,mitems.get(position).getId());
                     mcontext.startActivity(i);
             }
         });
