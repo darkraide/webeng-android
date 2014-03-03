@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Date;
 import java.util.List;
 
 import BaseClasses.BaseActivity;
 import Webservices.BengWebServices;
+import database.BengRegisteredHelper;
 import models.BengModelItem;
 import models.WeBengConstant;
 import models.location;
@@ -65,6 +67,12 @@ public class BengSubmitDiagActivity extends BaseActivity {
     public void onDiscard(View view) {
         finish();
     }
+
+    public void onRegisteredBeng(View view) {
+
+        new BengSummitAsync().execute(getIntent().getStringExtra(WeBengConstant.BENGID_KEY),userid.toString(),token.toString());
+    }
+
     private class BengAsync extends AsyncTask<String,Void,BengModelItem>{
 
         @Override
@@ -96,5 +104,31 @@ public class BengSubmitDiagActivity extends BaseActivity {
             }
         }
 
+    }
+
+    private class BengSummitAsync extends AsyncTask<String,Void,Boolean>{
+        @Override
+        protected void onPreExecute(){
+            layoutForm.setVisibility(View.GONE);
+            layoutLoading.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return bengServices.submitBeng(strings[0], strings[1], strings[2]);
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            layoutForm.setVisibility(View.VISIBLE);
+            layoutLoading.setVisibility(View.GONE);
+            if(result){
+                finish();
+                alert(getString(R.string.inform), getString(R.string.beng_submit_success_msg));
+                new BengRegisteredHelper(getBaseContext()).addRegistered(getIntent().getStringExtra(WeBengConstant.BENGID_KEY),new Date());
+            }
+            else if(bengServices.getErrorCode()!=200)
+                alert(getString(R.string.inform),bengServices.getResponseErrorMessage().getMessage());
+        }
     }
 }

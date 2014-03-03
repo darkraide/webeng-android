@@ -2,6 +2,7 @@ package Webservices;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 
 import org.apache.http.HttpEntity;
@@ -27,6 +28,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.ResponseErrorMessage;
+
 
 /**
  * Created by sangcu on 2/14/14.
@@ -34,6 +37,7 @@ import java.util.List;
 public class BaseWebServices {
     protected String _host = "";
     protected Integer errorCode;
+    private String errorMessage;
 
     public BaseWebServices(String host) {
         _host = host;
@@ -119,6 +123,7 @@ public class BaseWebServices {
             HttpResponse response = httpClient.execute(httpPost);
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
                 errorCode = response.getStatusLine().getStatusCode();
+                errorMessage=getResponse(response);
                 return null;
             }
             // writing response to log
@@ -169,5 +174,19 @@ public class BaseWebServices {
     }
     public void resetErrorCode() {
         errorCode=0;
+        errorMessage=null;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+    public ResponseErrorMessage getResponseErrorMessage(){
+        if(getErrorMessage()==null)
+            return null;
+        return new Gson().fromJson(getErrorMessage(),ResponseErrorMessage.class);
     }
 }

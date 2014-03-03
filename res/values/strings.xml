@@ -60,5 +60,8 @@
     <string name="msgErrorTitle">Lỗi</string>
     <string name="msgUserPassInvalid">Email và mật khẩu không hợp lệ.</string>
     <string name="push_content_msg">Có quà tặng mới phù hợp với khu vực của bạn</string>
+    <string name="beng_submit_failed_msg">Đăng ký không thành công. Vui lòng thử lại.</string>
+    <string name="inform">Thông báo</string>
+    <string name="beng_submit_success_msg">Đăng ký thành công. Webeng sẽ thông báo khi có người chiến thắng</string>
 
 </resources>

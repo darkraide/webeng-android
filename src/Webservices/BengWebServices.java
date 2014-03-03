@@ -5,6 +5,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,7 @@ import models.BengModelItem;
 public class BengWebServices extends BaseWebServices {
     String UriBoard = "/beng/dashboard/";
     String UriBeng="/beng/";
+    String UriBengSubmit="/beng/submit";
     public BengWebServices(String host) {
         super(host);
     }
@@ -39,5 +43,16 @@ public class BengWebServices extends BaseWebServices {
         if(jsonData==null)
             return null;
         return new Gson().fromJson(jsonData,BengModelItem.class);
+    }
+
+    public Boolean submitBeng(String bengid,String userid,String token) {
+        List<NameValuePair> params=new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("bengid",bengid));
+        String jsonData=postRequest(_host+UriBengSubmit,null,params,userid,token);
+        if(jsonData!=null)
+        {
+            return true;
+        }
+        return false;
     }
 }

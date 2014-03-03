@@ -94,6 +94,7 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:layout_margin="10dp"
+            android:onClick="onRegisteredBeng"
             android:layout_weight="1" />
         <Button
             android:id="@+id/btnDiscard"
