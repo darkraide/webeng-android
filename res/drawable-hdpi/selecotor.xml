@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-  <item android:state_pressed="true" android:drawable="@drawable/benglayout">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/benglayout">
 
     </item>
 
@@ -10,7 +8,7 @@
 
     </item>
 
-    <item android:drawable="@drawable/benglayoutlayer1">        
+    <item android:drawable="@drawable/benglayoutlayer1">
 
     </item>
 </selector>

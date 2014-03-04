@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,42 +38,46 @@ import models.BengModelItem;
 
 public class MainActivity extends BaseActivity implements OnItemClickListener {
 
+    private ImageView imgLoading;
     private static List<BengModelItem> items;
     private static Context context;
     private static ProgressBar progressBar;
     FontManager font = FontManager.getInstance();
     BengItemAdapter bengAdapter;
-
+    SharedPreferences sp;
+    CharSequence userid;
+    CharSequence token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setScreenName(getResources().getString(R.string.main_screen));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         progressBar = (ProgressBar) findViewById(R.id.progressGetItem);
+
+        imgLoading = (ImageView) findViewById(R.id.imgTapToLoad);
+
         LayoutInflater inflator = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflator.inflate(R.layout.mymenu, null);
+        View v = inflator.inflate(R.layout.action_bar_menu, null);
 
         final TextView title = ((TextView) v.findViewById(R.id.titleActivity));
         final ImageButton btn_newbeng = ((ImageButton) v
-                .findViewById(R.id.createbeng));
+               .findViewById(R.id.sharebutton));
         btn_newbeng.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent myIntentA1A2 = new Intent(MainActivity.this,
-                        CreateBeng.class);
-                startActivity(myIntentA1A2);
+               
 
             }
         });
-        title.setTypeface(font.mMedium);
+        //title.setTypeface(font.mMedium);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
-        lp.gravity = Gravity.CENTER;
-        title.setGravity(Gravity.CENTER);
+        lp.gravity = Gravity.LEFT;
+        title.setGravity(Gravity.LEFT);
         title.setMaxEms(10);
         title.setMaxLines(1);
         v.setLayoutParams(lp);
@@ -86,9 +91,9 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
         getListView().setOnItemClickListener(this);
         getListView().setEmptyView(findViewById(R.id.emptyList));
-        SharedPreferences sp = getSharedPreferences();
-        final CharSequence userid = sp.getString("userid", null);
-        final CharSequence token = sp.getString("token", null);
+        sp = getSharedPreferences();
+        userid = sp.getString("userid", null);
+        token = sp.getString("token", null);
 
         if (userid == null || token == null) {
             gotoActivity(LoginActivity.class);
@@ -109,17 +114,33 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                     }
                 });
         getListView()
-        .setOnLoadMoreListener(new PullAndLoadListView.OnLoadMoreListener() {
+                .setOnLoadMoreListener(new PullAndLoadListView.OnLoadMoreListener() {
 
-            public void onLoadMore() {
-                // Do the work to load more items at the end of list
-                // here
-                new LoadMoreAsyncTask().execute(userid.toString(), token.toString());
-            }
-        });
+                    public void onLoadMore() {
+                        // Do the work to load more items at the end of list
+                        // here
+                        new LoadMoreAsyncTask().execute(userid.toString(), token.toString());
+                    }
+                });
         getListView().setDrawSelectorOnTop(true);
+
+        checkIntentData();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        checkIntentData();
+
+    }
+    private void checkIntentData(){
+        Intent intent= getIntent();
+        Integer bengid=intent.getIntExtra("a",0);
+        if(bengid>0){
+            gotoActivity(BengSubmitDiagActivity.class);
+        }
+        Log.d("GCM",bengid.toString());
+    }
     private PullAndLoadListView getListView() {
         return (PullAndLoadListView) findViewById(R.id.ListBeng);
     }
@@ -157,6 +178,17 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
     }
 
+    public void onReloadClick(View view) {
+        imgLoading.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        final BengAsyncTask task = new BengAsyncTask();
+        task.execute(userid.toString(), token.toString());
+    }
+
+    public void onCommentClick(View view) {
+
+    }
+
     private class BengAsyncTask extends
             AsyncTask<String, Long, List<BengModelItem>> {
 
@@ -172,18 +204,17 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         protected List<BengModelItem> doInBackground(String... arg0) {
             try {
 
-                String index="0";
+                String index = "0";
 
-                if(items!=null&&items.isEmpty()==false)
-                    index=items.get(items.size()-1).getUpdated();
-                Log.d("async",index.toString());
+                if (items != null && items.isEmpty() == false)
+                    index = items.get(items.size() - 1).getUpdated();
+                Log.d("async", index.toString());
                 List<BengModelItem> result;
-                BengWebServices bws=new BengWebServices(getResources().getString(R.string.serverhost));
-                result = bws.getBengs(index,arg0[0], arg0[1]);
-                if(result==null)
-                {
-                    if(handleHttpCode(bws.getErrorCode())){
-                        result=bws.getBengs(index,arg0[0], arg0[1]);
+                BengWebServices bws = new BengWebServices(getResources().getString(R.string.serverhost));
+                result = bws.getBengs(index, arg0[0], arg0[1]);
+                if (result == null) {
+                    if (handleHttpCode(bws.getErrorCode())) {
+                        result = bws.getBengs(index, arg0[0], arg0[1]);
                     }
                 }
                 return result;
@@ -202,13 +233,19 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 } else
                     items = result;
                 if (bengAdapter == null) {
-                    bengAdapter = new BengItemAdapter(context,
+                    bengAdapter = new BengItemAdapter(MainActivity.this,
                             items);
                     getListView().setAdapter(bengAdapter);
                 }
                 bengAdapter.notifyDataSetChanged();
             }
-            //progressBar.setVisibility(View.INVISIBLE);
+            if (items.size() == 0) {
+                progressBar.setVisibility(View.GONE);
+                imgLoading.setVisibility(View.VISIBLE);
+                getListView().setVisibility(View.VISIBLE);
+            } else {
+                imgLoading.setVisibility(View.GONE);
+            }
             //getListView().setVisibility(View.VISIBLE);
             super.onPostExecute(result);
         }
@@ -229,6 +266,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             getListView().onRefreshComplete();
             super.onPostExecute(result);
         }
+
         @Override
         protected void onCancelled() {
             // Notify the loading more operation has finished
@@ -236,6 +274,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
         }
     }
+
     private class LoadMoreAsyncTask extends BengAsyncTask {
         @Override
         protected void onPostExecute(List<BengModelItem> result) {
@@ -243,6 +282,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             super.onPostExecute(result);
 
         }
+
         @Override
         protected void onCancelled() {
             // Notify the loading more operation has finished
