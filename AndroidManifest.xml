@@ -32,7 +32,9 @@
         <receiver android:name="widget.WebengBroadcastReceiver" />
 
         <service android:name="widget.WebengIntentService" />
-
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
@@ -52,6 +54,11 @@
             android:label="@string/login">
 
         </activity>
+        <activity
+            android:name=".facebookactivity"
+            android:label="@string/login" >
+        </activity>
+
         <activity android:name=".UserCreate">
 
         </activity>
@@ -72,7 +79,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name="com.facebook.LoginActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

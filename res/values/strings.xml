@@ -28,7 +28,7 @@
     <string name="Description">Mô tả</string>
     <string name="SaveBenggg">Lưu</string>
     <string name="create">Tạo mới</string>
-    <string name="completeprofile">Chuẩn bị hoàn tất</string>
+    <string name="completeprofile">Hoàn tất đăng </string>
     <string name="YourEmail">Địa chỉ email</string>
     <string name="YourPassword">Mật khẩu</string>
     <string name="btnNext">Tiếp theo</string>
@@ -63,5 +63,10 @@
     <string name="beng_submit_failed_msg">Đăng ký không thành công. Vui lòng thử lại.</string>
     <string name="inform">Thông báo</string>
     <string name="beng_submit_success_msg">Đăng ký thành công. Webeng sẽ thông báo khi có người chiến thắng</string>
+    <string name="app_id">438155052982583</string>
+    <string name="lblOr">Hoặc</string>
+    <string name="fblogout">Huỷ đăng nhập</string>
+    <string name="fblogin">Đăng nhập bằng Facebook>ký</string>
+    <string name="fbloginfailed">Không thể đăng nhập bằng Facebook. Vui lòng thử lại hoặc tạo tài khoản Webeng.</string>
 
 </resources>
