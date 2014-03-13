@@ -7,7 +7,8 @@
     <string name="PassWord">Mật khẩu</string>
     <string name="login">Đăng nhập</string>
     <string name="SignUp">Chưa có tài khoản? Tap vào để tạo.</string>
-    <string name="app_name">Webeng</string>
+    <string name="app_name">We Beng</string>
+    <string name="fb_app_name">WeBeng - Quà tặng</string>
     <string name="action_settings">Cấu hình</string>
     <string name="name">Tên</string>
     <string name="title">Mới nhất</string>
@@ -28,7 +29,7 @@
     <string name="Description">Mô tả</string>
     <string name="SaveBenggg">Lưu</string>
     <string name="create">Tạo mới</string>
-    <string name="completeprofile">Hoàn tất đăng </string>
+    <string name="completeprofile">Hoàn tất đăng ký</string>
     <string name="YourEmail">Địa chỉ email</string>
     <string name="YourPassword">Mật khẩu</string>
     <string name="btnNext">Tiếp theo</string>
@@ -36,7 +37,7 @@
     <string name="Male">Nam</string>
     <string name="YourSexual">Chọn giới tính?</string>
     <string name="YourLocations">Chọn khu vực</string>
-    <string name="btnDone">Hoàn thành</string>
+    <string name="btnDone">Hoàn tất</string>
     <string name="loggingToServer">Xác nhận tài khoản...</string>
     <string name="pull_to_refresh_pull_label">Kéo xuống...</string>
     <string name="pull_to_refresh_release_label">Thả để tải dữ liệu...</string>
@@ -52,8 +53,8 @@
     <string name="appstartup_screen">StartUp</string>
     <string name="viewimage_screen">View Image Screen</string>
     <string name="beng_menu">Đã Beng</string>
-    <string name="beng_submit_title">Xác nhận!</string>
-    <string name="beng_submit_done">Hoàn tất</string>
+    <string name="beng_submit_title">Share &amp; Hoàn tất</string>
+    <string name="beng_submit_done">Xác  </string>
     <string name="beng_discard_title">Quay lại</string>
     <string name="google_play_services_version">4.0.30</string>
     <string name="gcm_title">Quà tặng mới!</string>
@@ -68,5 +69,18 @@
     <string name="fblogout">Huỷ đăng nhập</string>
     <string name="fblogin">Đăng nhập bằng Facebook>ký</string>
     <string name="fbloginfailed">Không thể đăng nhập bằng Facebook. Vui lòng thử lại hoặc tạo tài khoản Webeng.</string>
+    <string name="share">Chia sẻ</string>
+    <string name="btnBengAlready">Bạn đã tham gia</string>
+    <string name="msg_data_invalid_title">Thông báo</string>
+    <string name="msg_data_invalid_message">Dữ liệu không đây đủ. Vui lòng kiểm tra lại.</string>
+    <string name="something_wrong">Không thể kết nối. vui lòng thử lại</string>
+    <string name="fanpageLink">https://www.facebook.com/webenggg</string>
+    <string name="share_fb_error">Không thể share lên facebook. Vui lòng thử lại.</string>
+    <string name="msg_share_beng">Quà tặng tuần </string>
+    <string name="msg_post_message">Đặt gạch >:o</string>
+    <string name="msg_post_name">Săn quà tặng miễn </string>
+    <string name="msg_share_name">Nhiều mặt hàng giá trị đang chờ bạn. Tham gia Webeng ngay hôm nay.</string>
+    <string name="msg_post_caption">Cơ hội nhận được những sản phẩm tiêu dùng miễn phí có giá trị từ các đối tác của Webeng.</string>
+    <string name="lblViewResult">Kết quả</string>
 
 </resources>

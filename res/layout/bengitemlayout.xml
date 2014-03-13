@@ -24,11 +24,13 @@
                 android:id="@+id/Image"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:layout_gravity="center|top"
+                android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:paddingTop="3dp"
-                android:scaleType="center" />
+                android:scaleType="center"
+                android:cropToPadding="true"
+                android:adjustViewBounds="true" />
 
             <ProgressBar
                 android:id="@+id/loading"
@@ -119,7 +121,8 @@
             android:clickable="true"
             android:background="@drawable/button_style"
             android:gravity="center_vertical|center_horizontal"
-            android:textColor="#000" />
+            android:textColor="#000"
+            android:layout_marginRight="2dp" />
 
         <TextView
             android:id="@+id/BengButton"
@@ -128,21 +131,22 @@
             android:layout_height="40dp"
             android:layout_gravity="right"
             android:clickable="true"
-            android:background="@drawable/button_style"
+            android:background="@drawable/red_button_style"
             android:text="@string/Benggg"
             android:layout_weight="1"
-            android:textColor="#000" />
+            android:textColor="#fff" />
 
         <TextView
             android:id="@+id/BtnViewResult"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="right"
             android:text="@string/ViewResult"
-            android:background="@drawable/button_style"
+            android:background="@drawable/green_button_style"
             android:clickable="true"
-            android:textColor="#000" />
+            android:layout_weight="1"
+            android:textColor="#fff" />
     </LinearLayout>
 
     <View

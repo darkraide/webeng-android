@@ -11,4 +11,5 @@ public class WeBengConstant {
     public static String FB_ID="fbid";
 
 
+    public static String FB_NAME="fbname";
 }

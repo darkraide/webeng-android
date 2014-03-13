@@ -38,7 +38,9 @@ public class BengModelItem {
     private String thump;
 //	private String name;
 
-
+    private String title;
+    private String shareTitle;
+    private String shareUrl;
     //private String[] thumps;
     private String[] photos;
     private String __v;

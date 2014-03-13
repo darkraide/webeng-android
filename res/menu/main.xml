@@ -12,5 +12,17 @@
         android:showAsAction="never"
         android:title="@string/beng_menu"
         android:enabled="true" />
+    <!-- Search, should appear as action button -->
+    <item android:id="@+id/action_search"
+        android:icon="@drawable/ic_action_share"
+        android:title="@string/share"
+        android:onClick="onShare"
+        android:showAsAction="ifRoom" />
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_settings"
+        android:icon="@drawable/ic_action_settings"
+        android:title="@string/action_settings"
+        android:onClick="onSetting"
+        android:showAsAction="ifRoom" />
 
 </menu>

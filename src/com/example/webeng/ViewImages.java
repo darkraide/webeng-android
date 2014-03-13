@@ -8,6 +8,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import Adapter.ImagePagerAdapter;
 import BaseClasses.BaseActivity;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,7 +20,6 @@ import android.support.v4.view.ViewPager;
 public class ViewImages extends BaseActivity {
     private static final String PhOTOS = "photos";
     private static final String STATE_POSITION = "STATE_POSITION";
-
     DisplayImageOptions options;
 
     ViewPager pager;
@@ -42,9 +42,9 @@ public class ViewImages extends BaseActivity {
         options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.ic_empty)
                 .showImageOnFail(R.drawable.ic_error)
-                .resetViewBeforeLoading(true)
+                //.resetViewBeforeLoading(true)
                 .cacheOnDisc(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
+                .imageScaleType(ImageScaleType.NONE)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .considerExifParams(true)
                 .displayer(new FadeInBitmapDisplayer(300))
@@ -53,6 +53,22 @@ public class ViewImages extends BaseActivity {
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new ImagePagerAdapter(imageUrls, this.getApplicationContext()));
         pager.setCurrentItem(pagerPosition);
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
     @Override

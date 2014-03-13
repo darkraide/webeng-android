@@ -1,20 +1,9 @@
 package Adapter;
 
-import com.example.webeng.R;
-import com.example.webeng.ViewImages;
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,23 +11,37 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.webeng.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import it.sephiroth.android.library.imagezoom.ImageViewTouch;
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 public class ImagePagerAdapter extends PagerAdapter {
     private String[] images;
     private LayoutInflater inflater;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     private Context mcontext;
     DisplayImageOptions options;
+   // PhotoViewAttacher mAttacher;
+
+
 
     public ImagePagerAdapter(String[] images, Context context) {
         this.images = images;
         inflater = LayoutInflater.from(context);
         mcontext = context;
         options = new DisplayImageOptions.Builder()
-                .showImageForEmptyUri(R.drawable.ic_empty)
-                .showImageOnFail(R.drawable.ic_error)
-                .resetViewBeforeLoading(true)
+                .showImageForEmptyUri(R.drawable.ic_noimage)
+                .showImageOnFail(R.drawable.ic_noimage)
+                //.resetViewBeforeLoading(true)
                 .cacheOnDisc(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
+                .imageScaleType(ImageScaleType.NONE)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .considerExifParams(true)
                 .displayer(new FadeInBitmapDisplayer(300))
@@ -61,10 +64,12 @@ public class ImagePagerAdapter extends PagerAdapter {
         View imageLayout = inflater.inflate(R.layout.item_pager_image, view,
                 false);
         assert imageLayout != null;
-        ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);
+        ImageView imageView = (ImageViewTouch) imageLayout.findViewById(R.id.image);
+
         final ProgressBar spinner = (ProgressBar) imageLayout
                 .findViewById(R.id.loading);
-
+        // Attach a PhotoViewAttacher, which takes care of all of the zooming functionality.
+    //    mAttacher = new PhotoViewAttacher(imageView);
         imageLoader.displayImage(images[position], imageView, options,
                 new SimpleImageLoadingListener() {
                     @Override

@@ -21,9 +21,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.FacebookDialog;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
+import Webservices.LoginWebServices;
+import database.BengRegisteredHelper;
+import models.BengRegistered;
+import models.UserModel;
 import models.WeBengConstant;
 import widget.PullAndLoadListView;
 import widget.PullToRefreshListView;
@@ -43,13 +54,21 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     private static ProgressBar progressBar;
     FontManager font = FontManager.getInstance();
     BengItemAdapter bengAdapter;
+    BengWebServices bws;
+
+    private Session.StatusCallback statusCallback = new SessionStatusCallback();
+    private UiLifecycleHelper uiHelper;
+    private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
+    private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
+    private boolean pendingPublishReauthorization = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setScreenName(getResources().getString(R.string.main_screen));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        uiHelper = new UiLifecycleHelper(this, statusCallback);
+        uiHelper.onCreate(savedInstanceState);
         progressBar = (ProgressBar) findViewById(R.id.progressGetItem);
 
         imgLoading = (ImageView) findViewById(R.id.imgTapToLoad);
@@ -58,15 +77,16 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.action_bar_menu, null);
 
-        final TextView title = ((TextView) v.findViewById(R.id.titleActivity));
+        //final TextView title = ((TextView) v.findViewById(R.id.titleActivity));
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
         lp.gravity = Gravity.LEFT;
-        title.setGravity(Gravity.LEFT);
-        title.setMaxEms(10);
-        title.setMaxLines(1);
+
+        TextView t=(TextView)v.findViewById(R.id.txtActionBarTitle);
+        t.setTypeface(font.mLight);
+
         v.setLayoutParams(lp);
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getActionBar().setCustomView(v);
@@ -109,6 +129,20 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         getListView().setDrawSelectorOnTop(true);
 
         checkIntentData();
+        //check submitted
+        new BengSubmittedAsync().execute();
+        //check user profile
+        new UserCheckerAsync().execute();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(bengAdapter!=null){
+            bengAdapter.updateBengRegistered();
+            bengAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -118,6 +152,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         checkIntentData();
 
     }
+
     private void checkIntentData(){
         Intent intent= getIntent();
         String bengid=intent.getStringExtra(WeBengConstant.BENGID_KEY);
@@ -169,8 +204,39 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         task.execute(userid.toString(), token.toString());
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+            @Override
+            public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+                Log.e("Activity", String.format("Error: %s", error.toString()));
+                alert(getString(R.string.msgErrorTitle),getString(R.string.share_fb_error));
+            }
+
+            @Override
+            public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+                Log.i("Activity", "Success!");
+            }
+
+        });
+    }
+
     public void onCommentClick(View view) {
 
+    }
+
+    public void onSetting(MenuItem item) {
+    }
+
+    public void onShare(MenuItem item) {
+        FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
+                .setLink(getString(R.string.fanpageLink))
+                .setName(getString(R.string.msg_share_name))
+                .setDescription(getString(R.string.msg_post_caption))
+                .setApplicationName(getString(R.string.fb_app_name))
+                .build();
+        uiHelper.trackPendingDialogCall(shareDialog.present());
     }
 
     private class BengAsyncTask extends
@@ -194,7 +260,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                     index = items.get(items.size() - 1).getUpdated();
                 Log.d("async", index.toString());
                 List<BengModelItem> result;
-                BengWebServices bws = new BengWebServices(getResources().getString(R.string.serverhost));
+                bws = new BengWebServices(getResources().getString(R.string.serverhost));
                 result = bws.getBengs(index, arg0[0], arg0[1]);
                 if (result == null) {
                     if (canHandleHttpCode(bws.getErrorCode())) {
@@ -225,7 +291,8 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             }
             if (items.size() == 0) {
                 progressBar.setVisibility(View.GONE);
-                imgLoading.setVisibility(View.VISIBLE);
+                if(bws.getErrorCode()!=401)
+                    imgLoading.setVisibility(View.VISIBLE);
                 getListView().setVisibility(View.VISIBLE);
             } else {
                 imgLoading.setVisibility(View.GONE);
@@ -273,6 +340,76 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             getListView().onLoadMoreComplete();
 
         }
+    }
+    private class BengSubmittedAsync extends AsyncTask<Void,Void,List<BengRegistered>>{
+
+        @Override
+        protected List<BengRegistered> doInBackground(Void... voids) {
+            return new BengWebServices(getString(R.string.serverhost)).getBengSumitted(userid.toString(),token.toString());
+        }
+
+        @Override
+        protected void onPostExecute(List<BengRegistered> result) {
+            if(result!=null && result.size()>0){
+                BengRegisteredHelper helper=new BengRegisteredHelper(context);
+                for(int i=0;i<result.size();i++){
+                    helper.addRegistered(result.get(i).getBengid(),result.get(i).getCreated());
+                }
+                helper.close();
+                if(bengAdapter!=null){
+                    bengAdapter.updateBengRegistered();
+                    bengAdapter.notifyDataSetChanged();
+                }
+
+            }
+            super.onPostExecute(result);
+        }
+    }
+
+    private class UserCheckerAsync extends AsyncTask<Void,Void, UserModel>{
+
+        @Override
+        protected UserModel doInBackground(Void... voids) {
+            UserModel user=new LoginWebServices(getString(R.string.serverhost)).getUser(userid.toString(),token.toString());
+            return user;
+        }
+
+        @Override
+        protected void onPostExecute(UserModel user) {
+            super.onPostExecute(user);
+            if(user!=null&&user.getLocations()==null){
+                getIntent().putExtra(WeBengConstant.FB_ID, user.getFbId());
+                getIntent().putExtra(WeBengConstant.EMAIL_KEY, user.getEmail());
+
+                getIntent().putExtra(WeBengConstant.GENDER, user.getSex());
+                getIntent().putExtra(WeBengConstant.ACCESS_TOKEN,user.getFbToken());
+                getIntent().putExtra(WeBengConstant.FB_NAME,user.getName());
+                gotoActivity(UserCreate.class);
+                finish();
+            }
+        }
+
+    }
+    private class SessionStatusCallback implements Session.StatusCallback {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            Log.d("SESSION", state.toString());
+            if (pendingPublishReauthorization &&
+                    state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
+                pendingPublishReauthorization = false;
+                //publishStory();
+            }
+        }
+    }
+
+
+    private boolean isSubsetOf(Collection<String> subset, Collection<String> superset) {
+        for (String string : subset) {
+            if (!superset.contains(string)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

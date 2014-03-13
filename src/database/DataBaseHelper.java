@@ -87,6 +87,16 @@ public class DataBaseHelper extends BaseDBHelper {
 
     }
 
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
+
+    }
+
 
     // Add your public helper methods to access and get content from the
     // database.

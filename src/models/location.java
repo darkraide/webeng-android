@@ -11,6 +11,7 @@ public class location {
     private Integer key;
     private Integer __v;
     private String describle;
+    private boolean checked;
 
     public location(String _id, String name) {
         this._id = _id;
@@ -68,5 +69,13 @@ public class location {
 
     public void setDescrible(String describle) {
         this.describle = describle;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public boolean isChecked() {
+        return checked;
     }
 }

@@ -16,8 +16,10 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.Settings;
+import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 
@@ -40,13 +43,13 @@ public class LoginActivity extends BaseActivity {
 
     private LoginButton buttonLoginLogout;
     private Session.StatusCallback statusCallback = new SessionStatusCallback();
-
+    private UiLifecycleHelper uiHelper;
     private TextView userid;
     private TextView password;
     private TextView webengg;
     private TextView newUser;
+    LoginWebServices loginServices;
     Button btnLogin;
-    FontManager font = FontManager.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,15 +58,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
 
-        Typeface light = Typeface.createFromAsset(getAssets(),
-                "fonts/HelveticaNeue Light.ttf");
-        Typeface medium = Typeface.createFromAsset(getAssets(),
-                "fonts/HelveticaNeue Medium.ttf");
-        Typeface bold = Typeface.createFromAsset(getAssets(),
-                "fonts/HelveticaNeue BoldMedium.otf");
-        Typeface untralight = Typeface.createFromAsset(getAssets(),
-                "fonts/HelveticaNeue UltraLight.ttf");
-        font.prepareFont(light, medium, bold, untralight);
+
 
         webengg = (TextView) findViewById(R.id.webengg);
 
@@ -79,15 +74,25 @@ public class LoginActivity extends BaseActivity {
         //newUser.setTypeface(mfont.mUntralight);
         btnLogin = (Button) findViewById(R.id.btnlogin);
         //btnLogin.setTypeface(mfont.mUntralight);
+        uiHelper = new UiLifecycleHelper(this, statusCallback);
+        uiHelper.onCreate(savedInstanceState);
+
+        btnLogin.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    onLoginClick(btnLogin);
+                }
+                return false;
+            }
+        });
+
         buttonLoginLogout = (LoginButton)findViewById(R.id.buttonLoginLogout);
-        buttonLoginLogout.setReadPermissions(Arrays.asList("basic_info", "email", "user_birthday", "gender"));
+        buttonLoginLogout.setReadPermissions(Arrays.asList("email","basic_info"));
         Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
         Session session = Session.getActiveSession();
-        if(session!=null)
-            session.closeAndClearTokenInformation();
+
         buttonLoginLogout.setSessionStatusCallback(statusCallback);
-        //buttonLoginLogout.setApplicationId(getString(R.string.app_id));
-        /*
+
         if (session == null) {
             if (savedInstanceState != null) {
                 session = Session.restoreSession(this, null, statusCallback, savedInstanceState);
@@ -99,7 +104,8 @@ public class LoginActivity extends BaseActivity {
             if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
                 session.openForRead(new Session.OpenRequest(this).setPermissions(Arrays.asList("basic_info", "email")).setCallback(statusCallback));
             }
-        }*/
+        }else
+            updateView();
 
         //updateView();
         // Add code to print out the key hash
@@ -148,21 +154,29 @@ e.printStackTrace();
         super.onStop();
         //Session.getActiveSession().removeCallback(statusCallback);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Session session=Session.getActiveSession();
-        if(session!=null)
-            session.onActivityResult(this, requestCode, resultCode, data);
+        uiHelper.onActivityResult(requestCode, resultCode, data);
     }
-
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        uiHelper.onDestroy();
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Session session = Session.getActiveSession();
-        if(session!=null)
-            Session.saveSession(session, outState);
+        uiHelper.onSaveInstanceState(outState);
     }
     private void updateView() {
         final Session session = Session.getActiveSession();
@@ -177,28 +191,22 @@ e.printStackTrace();
                         if (user != null && user.asMap().get(WeBengConstant.EMAIL_KEY)!=null) {
                             getIntent().putExtra(WeBengConstant.FB_ID, user.getId());
                             getIntent().putExtra(WeBengConstant.EMAIL_KEY, user.getProperty(WeBengConstant.EMAIL_KEY).toString());
-                            if(user.getProperty(WeBengConstant.GENDER)!=null)
-                                getIntent().putExtra(WeBengConstant.GENDER, user.getProperty(WeBengConstant.GENDER).toString());
+                            if(user.asMap().containsKey(WeBengConstant.GENDER))
+                                getIntent().putExtra(WeBengConstant.GENDER, user.asMap().get(WeBengConstant.GENDER).toString());
                             getIntent().putExtra(WeBengConstant.ACCESS_TOKEN,session.getAccessToken());
-                            gotoActivity(UserCreate.class);
-                            finish();
+                            getIntent().putExtra(WeBengConstant.FB_NAME,user.getFirstName()+" "+user.getLastName());
+                            new LoginFBAsync().execute(getString(R.string.serverhost),user.getId(),session.getAccessToken(),user.getProperty(WeBengConstant.EMAIL_KEY).toString());
+                            Log.d("FB",user.getId());
+                            Log.d("FB",session.getAccessToken());
                         }
-                    }
-                    turnOffProgressDialog();
+                    }else
+                        turnOffProgressDialog();
 
                 }
             });
             turnOnProgressDialog(getString(R.string.login),getString(R.string.loggingToServer));
             Request.executeBatchAsync(request);
 
-        } else {
-            //buttonLoginLogout.setText(R.string.fblogin);
-//            buttonLoginLogout.setOnClickListener(new View.OnClickListener() {
-//                public void onClick(View view) { onClickLogin(); }
-//            });
-        }
-        if(session.getState()==SessionState.CLOSED_LOGIN_FAILED){
-            alert(getString(R.string.login),getString(R.string.fbloginfailed));
         }
     }
 
@@ -227,6 +235,7 @@ e.printStackTrace();
         @Override
         public void call(Session session, SessionState state, Exception exception) {
             updateView();
+            Log.d("SESSION",state.toString());
         }
     }
     private class LoginAsyncTask extends AsyncTask<String, Boolean, Integer> {
@@ -234,15 +243,12 @@ e.printStackTrace();
 
         @Override
         protected Integer doInBackground(String... strings) {
-            LoginWebServices loginServices = new LoginWebServices(strings[0]);
+            if(loginServices==null)
+                loginServices = new LoginWebServices(strings[0]);
 
             Login logged = loginServices.Login(strings[1], strings[2]);
             if (logged != null && logged.getUserId() != null && logged.getToken() != null) {
-                SharedPreferences sp = getSharedPreferences();
-                SharedPreferences.Editor srp = sp.edit();
-                srp.putString("userid", logged.getUserId());
-                srp.putString("token", logged.getToken());
-                srp.commit();
+                saveUser(logged);
                 gotoActivity(MainActivity.class);
 
                 finish();
@@ -262,6 +268,41 @@ e.printStackTrace();
                     canHandleHttpCode(0);
         }
     }
+    private class LoginFBAsync extends AsyncTask<String,Integer,Integer>{
 
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+
+            if(result==200){
+                gotoActivity(MainActivity.class);
+                finish();
+            }else if(result==201){
+                gotoActivity(UserCreate.class);
+            }else{
+                canHandleHttpCode(result);
+            }
+            turnOffProgressDialog();
+        }
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+            if(loginServices==null)
+                loginServices = new LoginWebServices(strings[0]);
+            Login logged=loginServices.loginFacebook(strings[1], strings[2], strings[3]);
+            if (logged != null && logged.getUserId() != null && logged.getToken() != null) {
+                saveUser(logged);
+                return loginServices.getResponseCode();
+            }
+            return loginServices.getErrorCode();
+        }
+    }
+    private void saveUser(Login session){
+        SharedPreferences sp = getSharedPreferences();
+        SharedPreferences.Editor srp = sp.edit();
+        srp.putString("userid", session.getUserId());
+        srp.putString("token", session.getToken());
+        srp.commit();
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.example.webeng;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -9,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -77,8 +75,10 @@ public class StartupActivity extends BaseActivity {
 
             if (userid == null) {
                 gotoActivity(LoginActivity.class);
-            } else
+            } else{
+
                 gotoActivity(MainActivity.class);
+            }
 
         }
 

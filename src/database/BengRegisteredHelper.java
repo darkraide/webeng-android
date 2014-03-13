@@ -1,5 +1,6 @@
 package database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,36 +28,47 @@ public class BengRegisteredHelper extends BaseDBHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        createTable();
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
-
-    }
-    public String[] getBengs(){
-        ArrayList<String> result= new ArrayList<String>();
-        String insertSql="SELECT bengid FROM BengRegistered";
-        Cursor query= myDataBase.query(true, DB_NAME, new String[]{"bengid"}, null, null, null, null, null, null);
-        while(query.moveToNext()){
-            result.add(query.getString(0));
-        }
-        return result.toArray(new String[]{});
-    }
-    private void createTable() {
+    public void onCreate(SQLiteDatabase db) {
         try {
-            String create = "CREATE TABLE IF NOT EXISTS BengRegistered ([id] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,[bengid] TEXT NOT NULL PRIMARY KEY,[registered] DateTime)";
-            myDataBase.execSQL(create);
+            String create = "CREATE TABLE IF NOT EXISTS BengRegistered ([id] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,[bengid] TEXT,[registered] INTEGER)";
+            db.execSQL(create);
 
         } catch (Exception e) {
             Log.v("Create table", e.toString());
         }
     }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int i, int i2) {
+        // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + DB_NAME);
+
+        // Create tables again
+        onCreate(db);
+    }
+    public String[] getBengs(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> result= new ArrayList<String>();
+        Cursor query= db.query(true, DB_NAME, new String[]{"bengid"}, null, null, null, null, null, null);
+        while(query.moveToNext()){
+            result.add(query.getString(0));
+        }
+        return result.toArray(new String[]{});
+    }
     public void addRegistered(String bengid,Date registered){
-    openDataBase();
-        String insertSql="INSERT INTO BengRegistered(bengid,registered) VALUES('"+bengid+"','"+registered+"')";
-        myDataBase.execSQL(insertSql);
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put("bengid",bengid);
+        values.put("registered", registered.getTime());
+        assert db != null;
+        Cursor cur=db.query(true,DB_NAME,new String[]{"bengid"},"bengid=?",new String[]{bengid},null,null,null,null);
+        if(cur.getCount()==0){
+            db.insert(DB_NAME,null,values);
+        }
+        cur.close();
+        db.close(); 
+        String[] b=getBengs();
+
     }
 
 

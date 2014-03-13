@@ -13,8 +13,10 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -35,17 +37,19 @@ import models.ResponseErrorMessage;
  * Created by sangcu on 2/14/14.
  */
 public class BaseWebServices {
+    private final String POST="POST";
+    private final String PUT="PUT";
     protected String _host = "";
     protected Integer errorCode;
     private String errorMessage;
-
+    private Integer responseCode;
     public BaseWebServices(String host) {
         _host = host;
         errorCode = 0;
     }
 
     public String getRequest(String uri, String userId, String token) {
-        resetErrorCode();
+        resetLastResultCode();
         // Creating HTTP client
         HttpClient httpClient = new DefaultHttpClient();
         // Creating HTTP Post
@@ -60,8 +64,10 @@ public class BaseWebServices {
         // Making HTTP Request
         try {
             HttpResponse response = httpClient.execute(httpGet);
-            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            responseCode=response.getStatusLine().getStatusCode();
+            if (responseCode != HttpStatus.SC_OK) {
                 errorCode = response.getStatusLine().getStatusCode();
+                errorMessage=getResponse(response);
                 return null;
             }
             responseData = getResponse(response);
@@ -96,32 +102,45 @@ public class BaseWebServices {
     public String getRequest(String uri) {
         return getRequest(uri, null, null);
     }
-
+    public String putRequest(String uri,String jsonBody,String userId,String token){
+        return putRequest(uri,jsonBody,null,userId,token);
+    }
+    public String putRequest(String uri, String jsonBody, List<NameValuePair> body, String userId, String token){
+        return makeRequest(PUT,uri, jsonBody, body, userId, token);
+    }
     public String postRequest(String uri, String jsonBody, List<NameValuePair> body, String userId, String token) {
-        resetErrorCode();
+        return makeRequest(POST,uri, jsonBody, body, userId, token);
+    }
+    private String makeRequest(String method,String uri, String jsonBody, List<NameValuePair> body, String userId, String token) {
+        resetLastResultCode();
         // Creating HTTP client
         HttpClient httpClient = new DefaultHttpClient();
         // Creating HTTP Post
-        HttpPost httpPost = new HttpPost(uri);
+        HttpEntityEnclosingRequestBase httpPostOrPut = null;
+        if(method.equals(POST))
+            httpPostOrPut= new HttpPost(uri);
+        else if(method.equals(PUT))
+            httpPostOrPut=new HttpPut(uri);
 
         if (userId != null)
-            httpPost.addHeader("userid", userId);
+            httpPostOrPut.addHeader("userid", userId);
 
         if (token != null)
-            httpPost.addHeader("token", token);
+            httpPostOrPut.addHeader("token", token);
         if (jsonBody != null)
-            httpPost.addHeader("Content-Type", "application/json");
+            httpPostOrPut.addHeader("Content-Type", "application/json");
 
         String responseData = null;
         // Making HTTP Request
         try {
             if (jsonBody != null)
-                httpPost.setEntity(new StringEntity(jsonBody));
+                httpPostOrPut.setEntity(new StringEntity(jsonBody));
             else if (body != null)
-                httpPost.setEntity(new UrlEncodedFormEntity(body));
+                httpPostOrPut.setEntity(new UrlEncodedFormEntity(body));
 
-            HttpResponse response = httpClient.execute(httpPost);
-            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            HttpResponse response = httpClient.execute(httpPostOrPut);
+            responseCode=response.getStatusLine().getStatusCode();
+            if (responseCode != HttpStatus.SC_OK&&responseCode!=HttpStatus.SC_CREATED) {
                 errorCode = response.getStatusLine().getStatusCode();
                 errorMessage=getResponse(response);
                 return null;
@@ -172,9 +191,10 @@ public class BaseWebServices {
     public Integer getErrorCode() {
         return errorCode;
     }
-    public void resetErrorCode() {
+    public void resetLastResultCode() {
         errorCode=0;
         errorMessage=null;
+        responseCode=0;
     }
 
     public String getErrorMessage() {
@@ -188,5 +208,13 @@ public class BaseWebServices {
         if(getErrorMessage()==null)
             return null;
         return new Gson().fromJson(getErrorMessage(),ResponseErrorMessage.class);
+    }
+
+    public Integer getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(Integer responseCode) {
+        this.responseCode = responseCode;
     }
 }

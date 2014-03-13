@@ -14,6 +14,7 @@ import com.example.webeng.MainActivity;
 import com.example.webeng.R;
 import com.example.webeng.ViewImages;
 
+import com.example.webeng.ViewResultActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -25,12 +26,14 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import BaseClasses.BaseActivity;
+import database.BengRegisteredHelper;
 import models.BengModelItem;
 
 import Fonts.FontManager;
 import models.WeBengConstant;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -39,6 +42,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +70,7 @@ public class BengItemAdapter extends BaseAdapter {
     DisplayImageOptions options;
     private final ImageLoader imageLoader = ImageLoader.getInstance();
     private BaseActivity _activity;
+    private String[] bengRegistered;
     public BengItemAdapter(Context context, List<BengModelItem> items) {
         //_activity=activity;
         mInflater = LayoutInflater.from(context);
@@ -72,14 +78,19 @@ public class BengItemAdapter extends BaseAdapter {
         mitems = items;
         options = new DisplayImageOptions.Builder()
 
-                .showImageForEmptyUri(R.drawable.no_image)
+                //.showImageForEmptyUri(R.drawable.no_image)
                 .showImageOnFail(R.drawable.no_image).cacheInMemory(true)
-                .cacheOnDisc(true).considerExifParams(true)
-                .displayer(new RoundedBitmapDisplayer(20))
-                .imageScaleType(ImageScaleType.EXACTLY).build();
-
+                .cacheOnDisc(true)
+                //.considerExifParams(true)
+                //.displayer(new RoundedBitmapDisplayer(5))
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .resetViewBeforeLoading(true)
+                .build();
+        bengRegistered=new BengRegisteredHelper(context).getBengs();
     }
-
+    public void updateBengRegistered(){
+        bengRegistered=new BengRegisteredHelper(mcontext).getBengs();
+    }
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
@@ -181,7 +192,7 @@ public class BengItemAdapter extends BaseAdapter {
                         message = "Image can't be decoded";
                         break;
                     case NETWORK_DENIED:
-                        message = "Downloads are denied";
+                        //message = "Downloads are denied";
                         break;
                     case OUT_OF_MEMORY:
                         message = "Out Of Memory error";
@@ -211,27 +222,54 @@ public class BengItemAdapter extends BaseAdapter {
             holder.getBeng().setVisibility(View.VISIBLE);
             // holder.getBeng().setTypeface(font.mBold);
             holder.getDeadline().setTextColor(Color.parseColor("#e4511d"));
-            holder.getBeng().setOnClickListener(new View.OnClickListener() {
+            if(containBeng(mitems.get(position).getId())){
+                holder.getBeng().setEnabled(false);
+                holder.getBeng().setBackground(mcontext.getResources().getDrawable(R.drawable.red_benged_gradient_around));
+                holder.getBeng().setText(mcontext.getString(R.string.btnBengAlready));
+            }else{
+                holder.getBeng().setEnabled(true);
+                holder.getBeng().setBackground(mcontext.getResources().getDrawable(R.drawable.red_button_style));
+                holder.getBeng().setText(mcontext.getString(R.string.Benggg));
+                holder.getBeng().setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    // Create custom dialog object
-                    Intent i = new Intent(mcontext, BengSubmitDiagActivity.class);
-                    i.putExtra(WeBengConstant.BENGID_KEY,mitems.get(position).getId());
-                    mcontext.startActivity(i);
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        // Create custom dialog object
+                        Intent i = new Intent(mcontext, BengSubmitDiagActivity.class);
+                        i.putExtra(WeBengConstant.BENGID_KEY,mitems.get(position).getId());
+                        mcontext.startActivity(i);
+                }
+            });
             }
-        });
             holder.getViewResult().setVisibility(View.GONE);
         } else {
             holder.getBeng().setVisibility(View.GONE);
             // holder.getViewResult().setTypeface(font.mBold);
             holder.getViewResult().setVisibility(View.VISIBLE);
-            holder.getDeadline().setTextColor(Color.parseColor("#000"));
+            holder.getViewResult().setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(mcontext, ViewResultActivity.class);
+                    i.putExtra(WeBengConstant.BENGID_KEY,mitems.get(position).getId());
+                    Bundle ani =
+                            ActivityOptions.makeCustomAnimation(mcontext, R.anim.in_from_right_slowly,R.anim.out_from_right_slowly ).toBundle();
+                    mcontext.startActivity(i,ani);
+
+
+                }
+            });
+            holder.getDeadline().setTextColor(Color.parseColor("#000000"));
         }
         return convertView;
     }
-
+    private boolean containBeng(String bengId){
+        for(int i=0;i<bengRegistered.length;i++){
+            if(bengRegistered[i].equals(bengId))
+                return true;
+        }
+        return false;
+    }
     private static class AnimateFirstDisplayListener extends
             SimpleImageLoadingListener {
 

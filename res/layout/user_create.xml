@@ -112,35 +112,13 @@
                 android:layout_gravity="left"
                 android:layout_marginTop="20dp" />
 
-            <RadioGroup
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="left">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TP.HO CHI MINH"
-                    android:id="@+id/ckHcm"
-                    android:layout_gravity="left" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="HA NOI"
-                    android:id="@+id/ckHanoi"
-
-                    android:layout_gravity="left" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DA NANG"
-                    android:id="@+id/ckDaNang"
-
-                    android:layout_gravity="left" />
-
-            </RadioGroup>
+            <ListView
+                android:id="@+id/lvLocations"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:choiceMode="multipleChoice"
+                android:dividerHeight="10dp"
+                android:divider="@color/login_color_bg"></ListView>
         </LinearLayout>
     </ViewFlipper>
 
@@ -154,9 +132,21 @@
             android:layout_height="wrap_content"
             android:text="@string/btnNext"
             android:id="@+id/btnNext"
+            android:onClick="onNext"
             android:background="@drawable/loginbutton"
             android:layout_gravity="center_horizontal|bottom|left"
             android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:textColor="#fff" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btnDone"
+            android:id="@+id/btnDone"
+            android:background="@drawable/loginbutton"
+            android:layout_gravity="center_horizontal|bottom|left"
+            android:paddingLeft="30dp"
+            android:onClick="onDone"
             android:paddingRight="30dp"
             android:textColor="#fff" />
     </LinearLayout>

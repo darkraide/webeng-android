@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,8 +20,10 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
+import com.newrelic.agent.android.NewRelic;
 import java.util.HashMap;
+
+import Fonts.FontManager;
 
 /**
  * Created by sangcu on 2/15/14.
@@ -36,6 +39,7 @@ public class BaseActivity extends Activity {
     protected SharedPreferences sp;
     protected CharSequence userid;
     protected CharSequence token;
+    FontManager font = FontManager.getInstance();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -43,7 +47,19 @@ public class BaseActivity extends Activity {
         sp = getSharedPreferences();
         userid = sp.getString("userid", null);
         token = sp.getString("token", null);
+        NewRelic.withApplicationToken(
+                "AA4f9d2e9bc096c4cb4499d643d6af6b26b8a1dc7b"
+        ).start(this.getApplication());
 
+        Typeface light = Typeface.createFromAsset(getAssets(),
+                "fonts/Titillium-Regular.otf");
+        Typeface medium = Typeface.createFromAsset(getAssets(),
+                "fonts/HelveticaNeue Medium.ttf");
+        Typeface bold = Typeface.createFromAsset(getAssets(),
+                "fonts/Titillium-Bold.otf");
+        Typeface untralight = Typeface.createFromAsset(getAssets(),
+                "fonts/HelveticaNeue UltraLight.ttf");
+        font.prepareFont(light, medium, bold, untralight);
 
     }
     @Override
@@ -115,6 +131,7 @@ public class BaseActivity extends Activity {
 
             spe.putString("userid", null);
             spe.putString("token", null);
+            spe.commit();
             gotoActivity(LoginActivity.class);
             finish();
             return false;
